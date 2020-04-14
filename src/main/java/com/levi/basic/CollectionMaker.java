@@ -1,0 +1,82 @@
+package com.levi.basic;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+public class CollectionMaker {
+
+    //正确的将数组转换为ArrayList --> 使用new ArrayList<>包一层
+    public static void ConvertArrayList2List(){
+        List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
+        list.add("watermelon");
+        list.remove(0);
+        for (String item : list){
+            System.out.println(item);
+        }
+    }
+
+    //移除数组元素不能用foreach，应利用集合的迭代器
+    public static void RemoveCollectionItem(){
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+
+        //wrong
+//        for (String item : list){
+//            if("1".equals(item)){
+//                list.remove(item);
+//            }
+//        }
+
+        //right
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()){
+            String item = iterator.next();
+            if (item == "2"){
+                iterator.remove();
+            }
+        }
+
+        for (String item : list){
+            System.out.println(item);
+        }
+    }
+
+    private static void ArrayCopy() {
+        // copyOf 方法实现数组复制,h为数组，6为复制的长度
+        int[] h = {1, 2, 3, 3, 3, 3, 6, 6, 6,};
+        int i[] = Arrays.copyOf(h, 6);
+        System.out.println("Arrays.copyOf(h, 6);：");
+        // 输出结果：123333
+        for (int j : i) {
+            System.out.print(j);
+        }
+        int[] b = new int[]{1,2,4};
+        // 换行
+        System.out.println();
+        // copyOfRange将指定数组的指定范围复制到新数组中
+        int j[] = Arrays.copyOfRange(h, 6, 11);
+        System.out.println("Arrays.copyOfRange(h, 6, 11)：");
+        // 输出结果66600(h数组只有9个元素这里是从索引6到索引11复制所以不足的就为0)
+        for (int j2 : j) {
+            System.out.print(j2);
+        }
+        // 换行
+        System.out.println();
+    }
+
+    private static void ArrayBinarySearch() {
+        // *************查找 binarySearch()****************
+        char[] e = {'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B'};
+        // 排序后再进行二分查找，否则找不到
+        //Arrays.sort(e);
+        //System.out.println("Arrays.sort(e)" + Arrays.toString(e));
+        System.out.println("Arrays.binarySearch(e, 'c')：");
+        int s = Arrays.binarySearch(e, 'f');
+        System.out.println("字符c在数组的位置：" + s);
+    }
+}
