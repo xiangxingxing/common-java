@@ -183,11 +183,17 @@ public class LeetCoderTest {
     }
 
     @Test
-    @Ignore("do this later")
     public void LeetCode15_Test(){
         int[] nums = {-1, 0, 1, 2, -1, -4};
         List<List<Integer>> lists = LeetCoder.threeSum(nums);
-        System.out.println();
+        Integer[] expected2 = {-1, 0, 1};
+        Integer[] expected1 = {-1,-1, 2};
+        Integer[] actual1 = lists.get(0).toArray(new Integer[3]);
+
+        Integer[] actual2 = lists.get(1).toArray(new Integer[3]);
+
+        Assert.assertArrayEquals(expected1, actual1);
+        Assert.assertArrayEquals(expected2, actual2);
     }
 
     @Test
