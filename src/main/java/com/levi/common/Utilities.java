@@ -17,4 +17,14 @@ public class Utilities {
 
         return minVal;
     }
+
+    public static <T extends Comparable<T>> void swap(T[] array, int firstIndex, int secondIndex) {
+        if (array.length < 2) {
+            return;
+        }
+
+        T temp = array[firstIndex];
+        array[firstIndex] = array[secondIndex];
+        array[secondIndex] = temp;
+    }
 }

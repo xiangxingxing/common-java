@@ -10,6 +10,7 @@ public class CollectionMaker {
     //正确的将数组转换为ArrayList --> 使用new ArrayList<>包一层
     public static void ConvertArrayList2List(){
         List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
+        //String[] res = list.toArray(new String[0]); //将list转换为String数组
         list.add("watermelon");
         list.remove(0);
         for (String item : list){

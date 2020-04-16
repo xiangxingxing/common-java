@@ -1,10 +1,7 @@
 package com.levi.leetcodetopic;
 
-import javax.swing.plaf.synth.Region;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.security.InvalidAlgorithmParameterException;
+import java.util.*;
 
 public class LeetCoder {
     //leetCode01
@@ -207,6 +204,7 @@ public class LeetCoder {
             if (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE / 10 && (pop > Integer.MAX_VALUE % 10))) {
                 return Integer.MAX_VALUE;
             }
+            // (-pop) < Integer.MIN_VALUE % 10 注意！
             if (res < Integer.MIN_VALUE / 10 || (res == Integer.MIN_VALUE / 10 && ((-pop) < Integer.MIN_VALUE % 10))) {
                 return Integer.MIN_VALUE;
             }
@@ -221,25 +219,25 @@ public class LeetCoder {
     //leetCode09 判断一个整数是否是回文
     public static boolean isPalindrome(int x) {
         //x为非0的10的倍数、负数时，一定不是回文
-        if (x % 10 == 0 && x != 0 || x < 0){
+        if (x % 10 == 0 && x != 0 || x < 0) {
             return false;
         }
         char[] chars = Integer.toString(x).toCharArray();
-        if (chars.length == 1){
+        if (chars.length == 1) {
             return true;
         }
         Stack<Character> stack = new Stack<>();
         int i;
-        for (i = 0; i < chars.length >> 1;i++){
+        for (i = 0; i < chars.length >> 1; i++) {
             stack.push(chars[i]);
         }
 
-        if ((chars.length & 1) == 1){
+        if ((chars.length & 1) == 1) {
             i++;
         }
 
-        while (!stack.isEmpty()){
-            if (stack.pop() != chars[i]){
+        while (!stack.isEmpty()) {
+            if (stack.pop() != chars[i]) {
                 return false;
             }
             i++;
@@ -250,14 +248,14 @@ public class LeetCoder {
 
     public static boolean isPalindrome2(int x) {
         //x为非0的10的倍数、负数时，一定不是回文
-        if (x % 10 == 0 && x != 0 || x < 0){
+        if (x % 10 == 0 && x != 0 || x < 0) {
             return false;
         }
         char[] chars = Integer.toString(x).toCharArray();
         int left = 0;
         int right = chars.length - 1;
-        while (left <= right){
-            if (chars[left] != chars[right]){
+        while (left <= right) {
+            if (chars[left] != chars[right]) {
                 return false;
             }
             left++;
@@ -269,11 +267,11 @@ public class LeetCoder {
 
     public static boolean isPalindrome3(int x) {
         //x为非0的10的倍数、负数时，一定不是回文
-        if (x % 10 == 0 && x != 0 || x < 0){
+        if (x % 10 == 0 && x != 0 || x < 0) {
             return false;
         }
         int revertedNumber = 0;
-        while (x > revertedNumber){
+        while (x > revertedNumber) {
             revertedNumber = revertedNumber * 10 + x % 10;
             x /= 10;
         }
@@ -283,35 +281,261 @@ public class LeetCoder {
 
     //leetCode10 实现一个支持 '.' 和 '*' 的正则表达式匹配
     public static boolean isMatch(String s, String p) {
-        if (s == null || p.equals(null)){
+        if (s == null || p.equals(null)) {
             return false;
         }
 
         return matchCore(s, p);
     }
 
-    private static boolean matchCore(String s, String p){
-        if (s.isEmpty() && p.isEmpty()){
+    private static boolean matchCore(String s, String p) {
+        if (s.isEmpty() && p.isEmpty()) {
             return true;
         }
-        if (!s.isEmpty() && p.isEmpty()){
+        if (!s.isEmpty() && p.isEmpty()) {
             return false;
         }
 
         if (p.charAt(1) == '*') {
-            if (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.' && !s.isEmpty()){
+            if (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.' && !s.isEmpty()) {
                 return matchCore(s.substring(1), p.substring(2))
                         || matchCore(s.substring(1), p)
                         || matchCore(s, p.substring(2));
-            }
-            else {
+            } else {
                 return matchCore(s, p.substring(2));
             }
         }
 
-        if (s.charAt(0) == p.charAt(0) || (p.charAt(0) == '.' && !s.isEmpty())){
+        if (s.charAt(0) == p.charAt(0) || (p.charAt(0) == '.' && !s.isEmpty())) {
             return matchCore(s.substring(1), p.substring(1));
         }
         return false;
     }
+
+    //leetCode11 它们与 x 轴共同构成的容器可以容纳最多的水
+    public static int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+
+        int maxArea = 0;
+
+        while (right > left) {
+            int distance = right - left;
+            maxArea = Math.max(maxArea, distance * Math.min(height[left], height[right]));
+
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+
+        }
+        return maxArea;
+    }
+
+    //leetCode12 给定一个整数，将其转为罗马数字。输入确保在 1 到 3999 的范围内。
+    public static String intToRoman(int num) {
+        StringBuilder sb = new StringBuilder();
+        String[] roman = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};  // 罗马数字
+        int[] arab = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};  // 阿拉伯数字
+        int index = 0;
+        while (num > 0) {
+            int count = num / arab[index];
+            while (count > 0) {
+                sb.append(roman[index]);
+                count--;
+            }
+
+            num %= arab[index]; //若num小于arab[index]，则取余后仍是本身num
+            index++;
+        }
+
+        return sb.toString();
+    }
+
+    //leetCode13 给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。
+    public static int romanToInt(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("M", 1000);
+        map.put("CM", 900);
+        map.put("D", 500);
+        map.put("CD", 400);
+        map.put("C", 100);
+        map.put("XC", 90);
+        map.put("L", 50);
+        map.put("XL", 40);
+        map.put("X", 10);
+        map.put("IX", 9);
+        map.put("V", 5);
+        map.put("IV", 4);
+        map.put("I", 1);
+
+        if (map.containsKey(s)) {
+            return map.get(s);
+        }
+
+        int index = 0;
+        int res = 0;
+        while (index < s.length()) {
+            if ((index + 1) < s.length() && map.containsKey(s.substring(index, index + 2))) {
+                res += map.get(s.substring(index, index + 2));
+                index += 2;
+            } else {
+                res += map.get(s.substring(index, index + 1));
+                index++;
+            }
+        }
+        return res;
+    }
+
+    //leetCode14 编写一个函数来查找字符串数组中的最长公共前缀
+    public static String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+
+        String prefix = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            int j;
+            for (j = 0; j < prefix.length() && j < strs[i].length(); j++) {
+                if (prefix.charAt(j) != strs[i].charAt(j)) {
+                    break;
+                }
+            }
+
+            prefix = strs[0].substring(0, j);
+        }
+
+        return prefix;
+    }
+
+    //leetCode15 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0
+    //答案中不可以包含重复的三元组
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList();
+        if (nums == null || nums.length < 3) {
+            return ans;
+        }
+        Arrays.sort(nums);//排序
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    //去掉重复
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else
+                    right--;
+
+            }
+        }
+        return ans;
+    }
+
+    //leetCode16 找出 nums 中的三个整数,使得它们的和与target最接近,返回这三个数的和
+    public static int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int sum = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length; i++) {
+            int start = i + 1;
+            int end = nums.length - 1;
+            while (start < end) {
+                int pivot = nums[i] + nums[start] + nums[end];
+                sum = Math.abs(sum - target) < Math.abs(pivot - target) ? sum : pivot ;
+                if (pivot > target){
+                    end--;
+                }
+                else {
+                    start++;
+                }
+            }
+        }
+
+        return sum;
+    }
+
+    //leetCode17 电话号码的字母组合：给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合
+    public static List<String> letterCombinations(String digits) {
+        LinkedList<String> list = new LinkedList<>();
+        if (digits.isEmpty()) {
+            return list;
+        }
+        String[] mapping = new String[]{"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        list.add("");
+        for (int i = 0; i < digits.length(); i++) {
+            int digit = Character.getNumericValue(digits.charAt(i));
+            while (list.peek().length() == i) {
+                String temp = list.remove();//linkList 头删法
+                for (char s : mapping[digit].toCharArray()) {
+                    list.add(temp + s);// linklist 尾插法
+                }
+            }
+        }
+
+        return list;
+    }
+    //leetCode18
+
+
+    //leetCode19 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+    public ListNode removeNthFromEnd(ListNode head, int n){
+        if(head == null){
+            return null;
+        }
+        ListNode ahead = head;
+
+        if (n == 1){
+            if (ahead.next == null){
+                return null;
+            }
+            while (ahead.next.next != null){
+                ahead = ahead.next;
+            }
+            ahead.next = null;
+            return head;
+        }
+
+        int i =0;
+        while (i < n - 1){
+            if (ahead.next != null){
+                ahead = ahead.next;
+                i++;
+            }
+            else {
+                return null;
+            }
+        }
+
+        ListNode behind = head;
+        while (ahead.next != null){
+            ahead = ahead.next;
+            behind = behind.next;
+        }
+        //此时behind为倒数第n(n > 1)个节点
+
+        ListNode pNext = behind.next;
+        behind.val = pNext.val;
+        behind.next = pNext.next;
+        pNext.next = null;
+        return head;
+
+    }
+
+
+    //leetCode20
+
 }

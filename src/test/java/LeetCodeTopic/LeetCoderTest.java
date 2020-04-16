@@ -7,7 +7,9 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LeetCoderTest {
     @Test
@@ -135,4 +137,72 @@ public class LeetCoderTest {
         boolean res = LeetCoder.isMatch(s, p);
         Assert.assertEquals(true, res);
     }
+
+    @Test
+    public void LeetCode11_Test(){
+        int[] heights = {1,8,6,2,5,4,8,3,7};
+        int result = LeetCoder.maxArea(heights);
+        Assert.assertEquals(49, result);
+    }
+
+    @Test
+    public void LeetCode12_Test(){
+        int input1 = 1994;
+        String res1 = LeetCoder.intToRoman(input1);
+        Assert.assertEquals("MCMXCIV", res1);
+
+        int input2 = 58;
+        String res2 = LeetCoder.intToRoman(input2);
+        Assert.assertEquals("LVIII", res2);
+    }
+
+    @Test
+    public void LeetCode13_Test(){
+        String input0 = "IV";
+        int res0 = LeetCoder.romanToInt(input0);
+        Assert.assertEquals(4, res0);
+
+        String input1 = "LVIII";
+        int res1 = LeetCoder.romanToInt(input1);
+        Assert.assertEquals(58, res1);
+
+        String input2 = "MCMXCIV";
+        int res2 = LeetCoder.romanToInt(input2);
+        Assert.assertEquals(1994, res2);
+    }
+
+    @Test
+    public void LeetCode14_Test(){
+        String[] strings = {"flower","flow","flight"};
+        String res = LeetCoder.longestCommonPrefix(strings);
+        Assert.assertEquals("fl", res);
+
+        String[] strings1 = {"dog","racecar","car"};
+        String res1 = LeetCoder.longestCommonPrefix(strings1);
+        Assert.assertEquals("", res1);
+    }
+
+    @Test
+    @Ignore("do this later")
+    public void LeetCode15_Test(){
+        int[] nums = {-1, 0, 1, 2, -1, -4};
+        List<List<Integer>> lists = LeetCoder.threeSum(nums);
+        System.out.println();
+    }
+
+    @Test
+    public void LeetCode16_Test(){
+        int[] nums = {-1,2,1,-4};
+        int res = LeetCoder.threeSumClosest(nums, 1);
+        Assert.assertEquals(2,res);
+    }
+
+    @Test
+    public void LeetCode17_Test(){
+        List<String> list = LeetCoder.letterCombinations("23");
+        String[] expected = {"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"};
+        String[] res = list.toArray(new String[0]);
+        Assert.assertArrayEquals(expected,res);
+    }
+
 }
