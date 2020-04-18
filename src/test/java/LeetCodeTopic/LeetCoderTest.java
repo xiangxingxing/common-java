@@ -211,4 +211,15 @@ public class LeetCoderTest {
         Assert.assertArrayEquals(expected,res);
     }
 
+    @Test
+    public void LeetCode20_Test(){
+        String str = "({})";
+        boolean isValid= LeetCoder.isValid(str);
+        String str2 = "([)]";
+        boolean isValid2= LeetCoder.isValid(str2);
+
+        Assert.assertEquals(true, isValid);
+        Assert.assertEquals(false, isValid2);
+    }
+
 }

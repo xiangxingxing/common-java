@@ -455,11 +455,10 @@ public class LeetCoder {
             int end = nums.length - 1;
             while (start < end) {
                 int pivot = nums[i] + nums[start] + nums[end];
-                sum = Math.abs(sum - target) < Math.abs(pivot - target) ? sum : pivot ;
-                if (pivot > target){
+                sum = Math.abs(sum - target) < Math.abs(pivot - target) ? sum : pivot;
+                if (pivot > target) {
                     end--;
-                }
-                else {
+                } else {
                     start++;
                 }
             }
@@ -492,36 +491,35 @@ public class LeetCoder {
 
 
     //leetCode19 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
-    public ListNode removeNthFromEnd(ListNode head, int n){
-        if(head == null){
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) {
             return null;
         }
         ListNode ahead = head;
 
-        if (n == 1){
-            if (ahead.next == null){
+        if (n == 1) {
+            if (ahead.next == null) {
                 return null;
             }
-            while (ahead.next.next != null){
+            while (ahead.next.next != null) {
                 ahead = ahead.next;
             }
             ahead.next = null;
             return head;
         }
 
-        int i =0;
-        while (i < n - 1){
-            if (ahead.next != null){
+        int i = 0;
+        while (i < n - 1) {
+            if (ahead.next != null) {
                 ahead = ahead.next;
                 i++;
-            }
-            else {
+            } else {
                 return null;
             }
         }
 
         ListNode behind = head;
-        while (ahead.next != null){
+        while (ahead.next != null) {
             ahead = ahead.next;
             behind = behind.next;
         }
@@ -536,6 +534,52 @@ public class LeetCoder {
     }
 
 
-    //leetCode20
+    //leetCode20 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+    public static boolean isValid(String s) {
+        if ((s.length() & 1) == 1) {
+            return false;
+        }
+
+        Stack<Character> stack = new Stack<>();
+        int i = 0;
+        while (i < s.length()) {
+            switch (s.charAt(i)) {
+                case '(':
+                    stack.push('(');
+                    break;
+                case '{':
+                    stack.push('{');
+                    break;
+                case '[':
+                    stack.push('[');
+                    break;
+                case ')':
+                    if (!stack.isEmpty() && stack.pop().equals('(')){
+                        break;
+                    }
+
+                    return false;
+                case '}':
+                    if (!stack.isEmpty() && stack.pop().equals('{')){
+                        break;
+                    }
+
+                    return false;
+                case ']':
+                    if (!stack.isEmpty() && stack.pop().equals('[')){
+                        break;
+                    }
+
+                    return false;
+            }
+
+            i++;
+        }
+        if (stack.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
 
 }
