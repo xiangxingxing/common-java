@@ -222,4 +222,23 @@ public class LeetCoderTest {
         Assert.assertEquals(false, isValid2);
     }
 
+    @Test
+    public void leetCode21_Test(){
+        // 1 -> 2 --> 4
+        ListNode l1 = new ListNode(1);
+        l1.next = new ListNode(2);
+        l1.next.next = new ListNode(4);
+
+        // 1 --> 3 --> 4
+        ListNode l2 = new ListNode(1);
+        l2.next = new ListNode(3);
+        l2.next.next = new ListNode(4);
+
+        ListNode merged = LeetCoder.mergeTwoLists(l1, l2);
+        int[] expected = {1,1,2,3,4,4};
+        for (int i = 0; merged != null; i++){
+            Assert.assertEquals(expected[i], merged.val);
+            merged = merged.next;
+        }
+    }
 }

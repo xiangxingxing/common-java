@@ -1,6 +1,5 @@
 package com.levi.leetcodetopic;
 
-import java.security.InvalidAlgorithmParameterException;
 import java.util.*;
 
 public class LeetCoder {
@@ -155,11 +154,11 @@ public class LeetCoder {
         while (x != 0) {
             int pop = x % 10;
             //最大 Integer.MAX_VALUE % 10 = 7
-            if (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE && pop > Integer.MAX_VALUE % 10)) {
+            if (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE / 10 && pop > Integer.MAX_VALUE % 10)) {
                 return 0;
             }
             //最下 pop < Integer.MIN_VALUE % 10 = -8
-            if (res < Integer.MIN_VALUE / 10 || (res == Integer.MIN_VALUE && pop < Integer.MIN_VALUE % 10)) {
+            if (res < Integer.MIN_VALUE / 10 || (res == Integer.MIN_VALUE / 10 && pop < Integer.MIN_VALUE % 10)) {
                 return 0;
             }
             res = res * 10 + pop;
@@ -448,6 +447,7 @@ public class LeetCoder {
 
     //leetCode16 找出 nums 中的三个整数,使得它们的和与target最接近,返回这三个数的和
     public static int threeSumClosest(int[] nums, int target) {
+        //先排序
         Arrays.sort(nums);
         int sum = nums[0] + nums[1] + nums[2];
         for (int i = 0; i < nums.length; i++) {
@@ -580,6 +580,27 @@ public class LeetCoder {
         }
 
         return false;
+    }
+
+    //leetCode21 将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+
+        ListNode pMerged;
+        if (l1.val < l2.val) {
+            pMerged = l1;
+            pMerged.next = mergeTwoLists(l1.next, l2);
+        } else {
+            pMerged = l2;
+            pMerged.next = mergeTwoLists(l1, l2.next);
+        }
+
+        return pMerged;
     }
 
 }

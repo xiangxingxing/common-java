@@ -1,10 +1,4 @@
 import com.levi.basic.CollectionMaker;
-import com.levi.basic.StaticConstructor;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 public class BasicTest {
 
