@@ -241,4 +241,28 @@ public class LeetCoderTest {
             merged = merged.next;
         }
     }
+
+    @Test
+    public void leetCode22_Test(){
+        List<String> list = LeetCoder.generateParenthesis(3);
+        String[] expected = {"((()))",
+                "(()())",
+                "(())()",
+                "()(())",
+                "()()()"};
+        Assert.assertArrayEquals(expected, list.toArray());
+
+        List<String> list2 = LeetCoder.generateParenthesis(2);
+        String[] expected2 = {"(())","()()"};
+        Assert.assertArrayEquals(expected2, list2.toArray());
+    }
+
+    @Test
+    public void leetCode24_Test(){
+        // 2 -> 5 --> 8
+        ListNode l1 = new ListNode(2);
+        l1.next = new ListNode(5);
+        l1.next.next = new ListNode(8);
+        LeetCoder.swapPairs(l1);
+    }
 }
