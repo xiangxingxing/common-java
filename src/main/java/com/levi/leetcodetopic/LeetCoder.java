@@ -660,4 +660,60 @@ public class LeetCoder {
         return reversed;
     }
 
+    //leetCode25 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+    //‼️双指针法‼️
+    public static ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        ListNode end = dummy;
+        while (end != null){
+            for (int i = 0; i < k && end != null;i++){
+                end = end.next;
+            }
+            if (end == null){
+                break;
+            }
+
+            ListNode start = pre.next;//第一个节点
+            ListNode next = end.next;//保存第k+1结点
+            end.next = null;//断链
+            pre.next = reverse(start);//start成为最后一个节点了
+            start.next = next;//连接
+
+            pre = start;
+            end = start;
+        }
+
+        return dummy.next;
+
+    }
+
+    private static ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode current = head;
+        while (current != null) {
+            ListNode next = current.next;
+            current.next = pre;
+            pre = current;
+            current = next;
+        }
+
+        return pre;
+    }
+
+    //leetCode26 原地删除排序数组中的重复项,返回移除后数组的新长度。
+    public static int removeDuplicates(int[] nums) {
+        int i = 0;
+        int j = 1;
+        while (j < nums.length){
+            if (nums[i] != nums[j]){
+                nums[++i] = nums[j];
+            }
+
+            j++;
+        }
+
+        return i + 1;
+    }
 }

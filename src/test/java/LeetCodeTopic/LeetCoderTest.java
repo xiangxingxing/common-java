@@ -245,7 +245,8 @@ public class LeetCoderTest {
     @Test
     public void leetCode22_Test(){
         List<String> list = LeetCoder.generateParenthesis(3);
-        String[] expected = {"((()))",
+        String[] expected = {
+                "((()))",
                 "(()())",
                 "(())()",
                 "()(())",
@@ -264,5 +265,12 @@ public class LeetCoderTest {
         l1.next = new ListNode(5);
         l1.next.next = new ListNode(8);
         LeetCoder.swapPairs(l1);
+    }
+
+    @Test
+    public void leetCode26_Test(){
+        int[] nums = {1,2,2,3,3,4,5,5,5};
+        int length = LeetCoder.removeDuplicates(nums);
+        Assert.assertEquals(5,length);
     }
 }
