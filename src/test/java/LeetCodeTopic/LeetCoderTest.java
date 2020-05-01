@@ -273,4 +273,9 @@ public class LeetCoderTest {
         int length = LeetCoder.removeDuplicates(nums);
         Assert.assertEquals(5,length);
     }
+
+    @Test
+    public void leetCode34_Test(){
+
+    }
 }

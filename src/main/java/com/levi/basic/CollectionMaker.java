@@ -1,9 +1,6 @@
 package com.levi.basic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class CollectionMaker {
 
@@ -25,7 +22,6 @@ public class CollectionMaker {
         list.add("2");
         list.add("3");
         list.add("4");
-
         //wrong
 //        for (String item : list){
 //            if("1".equals(item)){

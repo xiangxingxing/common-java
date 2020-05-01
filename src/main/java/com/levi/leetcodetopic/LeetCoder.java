@@ -663,7 +663,7 @@ public class LeetCoder {
     //leetCode25 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
     //‼️双指针法‼️
     public static ListNode reverseKGroup(ListNode head, int k) {
-        ListNode dummy = new ListNode(0);
+        ListNode dummy = new ListNode(0);//设置头结点
         dummy.next = head;
         ListNode pre = dummy;
         ListNode end = dummy;
@@ -715,5 +715,100 @@ public class LeetCoder {
         }
 
         return i + 1;
+    }
+
+    //leetCode27 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+    public static int removeElement(int[] nums, int val) {
+        int ans = 0;
+        for (int num : nums){
+            if (num != val){
+                nums[ans++] = num;
+            }
+        }
+
+        return ans;
+    }
+
+    //leetCode28  给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。
+    // 如果不存在，则返回  -1。
+
+    public static int strStr(String haystack, String needle) {
+        if (needle == null || needle.equals("")){
+            return 0;
+        }
+        if(!haystack.contains(needle)){
+            return -1;
+        }
+        return haystack.indexOf(needle);
+
+    }
+
+    //leetCode33 假设按照升序排序的数组在预先未知的某个点上进行了旋转。搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+    public static int search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+
+        while (low <= high){
+            int mid = (low + high) >> 1;
+            int midVal = nums[mid];
+            if (target == midVal){
+                return mid;
+            }
+            else if (midVal >= nums[low]){
+                if (target >= nums[low] && target < midVal){
+                    high = mid - 1;
+                }
+                else {
+                    low = mid+1;
+                }
+            }
+            else {
+                if (target <= nums[high] && target > midVal){
+                    low = mid+1;
+                }
+                else {
+                    high = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    //leetCode34 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+    public static int[] searchRange(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        int left = -1, right = -1;
+        while (low <= high) {
+            int mid = (low + high) >> 1;
+            if (nums[mid] == target) {
+                for (left = mid; left > low; ) {
+                    if (nums[left] == nums[left - 1]) {
+                        left--;
+                    }
+                    else {
+                        break;
+                    }
+                }
+
+                for (right = mid; right < high; ) {
+                    if (nums[right] == nums[right + 1]) {
+                        right++;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                break;
+
+            } else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return new int[]{left, right};
     }
 }
