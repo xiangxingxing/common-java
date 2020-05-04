@@ -1,5 +1,7 @@
 package com.levi.basic.io;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -13,11 +15,8 @@ java.io.FileOutputStream
 public class FileOutputStreamSamp {
 
     public static void main(String[] args) {
-        try {
-            Samp1();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //Samp1();
+        copyFile("/Users/xiangxx/Downloads/DownloadFile/chicken.png");
     }
 
     public static void Samp1() throws IOException{
@@ -30,5 +29,47 @@ public class FileOutputStreamSamp {
 //        byte[] bytes = str.getBytes();
         outputStream.write(bytes);
         System.out.println("Append done!");
+    }
+
+    //结合 FileInputStream + FileOutputStream
+    //实现文件的拷贝
+    public static  void copyFile(String filePath){
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        String outputPath = "/Users/xiangxx/Downloads/DownloadFile/copied.png";
+        try {
+            byte[] bytes = new byte[1024 * 1024]; // 1MB
+            fis = new FileInputStream(filePath);
+            fos = new FileOutputStream(outputPath);
+            int length;
+            while ((length = fis.read(bytes)) != -1){
+                fos.write(bytes, 0, length);
+            }
+
+            //输出流需要flush更新
+            fos.flush();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        finally {
+            if (fis != null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fos != null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

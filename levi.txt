@@ -1,2 +1,3 @@
-abcdefg
-tes冠军！tes冠军！abcd
+Java learning.
+2020.5.4
+By levi.
