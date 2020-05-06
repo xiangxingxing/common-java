@@ -3,11 +3,19 @@ package com.levi.basic;
 import java.util.*;
 
 public class CollectionMaker {
+    public static void main(String[] args) {
+        int[] h = {1, 2, 3, 3, 3, 3, 6, 6, 6,};
+        int newCapacity = 12;
+        int i[] = Arrays.copyOf(h, newCapacity);
+        for (int item : i){
+            System.out.println(item);
+        }
+    }
 
     //正确的将数组转换为ArrayList --> 使用new ArrayList<>包一层
     public static void ConvertArrayList2List(){
         List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
-        //String[] res = list.toArray(new String[0]); //将list转换为String数组
+        //String[] res = list.toArray(new String[list.size()]); //将list转换为String数组
         list.add("watermelon");
         list.remove(0);
         for (String item : list){

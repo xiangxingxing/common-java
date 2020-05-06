@@ -18,16 +18,16 @@ public class MinHeapSorter {
     }
 
     private static <T extends Comparable<T>> void BuildMinHeap(T[] array) {
-        int lastNodeWithChild = array.length >>> 1;
         int lastIndex = array.length - 1;
+        int lastNodeWithChild = lastIndex >>> 1;
         for (int i = lastNodeWithChild; i >= 0; i--) {
             AdjustMinHeap(array, i, lastIndex);
         }
     }
 
     private static <T extends Comparable<T>> void AdjustMinHeap(T[] array, int node, int lastIndex) {
-        int leftChild = node * 2;
-        int rightChild = node * 2 + 1;
+        int leftChild = node * 2 + 1;
+        int rightChild = leftChild + 1;
         int minimum = node;
         if (leftChild <= lastIndex && array[leftChild].compareTo(array[minimum]) < 0) {
             minimum = leftChild;
