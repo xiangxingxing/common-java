@@ -10,6 +10,8 @@ public class CollectionSamp {
         //Samp4();
         Samp5();
 
+        //Collections.sort(list);//该list存储的类型需要实现Comparable<T>类型
+
     }
 
     //关于remove
