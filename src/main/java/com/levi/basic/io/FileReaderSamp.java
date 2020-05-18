@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /*
-    普通文本文件
+    对象：普通文本文件
 */
 public class FileReaderSamp {
     public static void main(String[] args) {

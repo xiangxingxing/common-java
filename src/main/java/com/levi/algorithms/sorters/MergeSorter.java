@@ -7,7 +7,7 @@ public class MergeSorter {
     public static <T extends Comparable<T>> void mergeSort(T[] array) {
         internalMergeSort(array);
     }
-
+public Object obj = new Object();
     private static <T extends Comparable<T>> T[] internalMergeSort(T[] array) {
         if (array.length < 2){
             return array;

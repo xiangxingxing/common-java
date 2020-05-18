@@ -64,8 +64,8 @@ public class ThreadSamp {
         //Samp3();
         //Samp4();
         //Samp5();
-        //samp6();
-        samp7();
+        samp6();
+        //samp7();
     }
 
     public static void Samp1(){
