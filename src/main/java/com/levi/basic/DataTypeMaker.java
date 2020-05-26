@@ -2,6 +2,14 @@ package com.levi.basic;
 
 public class DataTypeMaker {
 
+    public static void EqualTest0(){
+        int num = 56;
+        Integer num2 = new Integer(56);
+        Integer num3 = 56;
+        System.out.println(num == num2);//true
+        System.out.println(num2 == num3);//false
+    }
+
     public static void EqualTest() {
         String a = new String("ab"); // a 为一个引用
         String b = new String("ab"); // b为另一个引用,对象的内容一样
@@ -44,5 +52,7 @@ public class DataTypeMaker {
         System.out.println(g.equals(a + b)); // false
         System.out.println(g.equals(a + h)); // true
     }
+
+
 
 }
