@@ -33,7 +33,7 @@ public class FileOutputStreamSamp {
 
     //结合 FileInputStream + FileOutputStream
     //实现文件的拷贝
-    public static  void copyFile(String filePath){
+    public static void copyFile(String filePath){
         FileInputStream fis = null;
         FileOutputStream fos = null;
         String outputPath = "/Users/xiangxx/Downloads/DownloadFile/copied.png";

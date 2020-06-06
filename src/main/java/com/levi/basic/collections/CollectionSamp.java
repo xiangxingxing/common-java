@@ -34,6 +34,8 @@ public class CollectionSamp {
 
         //right
         //‼️集合结构如果发生改变，迭代器必须重新获取‼️
+/*
+
         Iterator iterator = list.iterator();
         while (iterator.hasNext()){
             Object item = iterator.next();
@@ -41,10 +43,19 @@ public class CollectionSamp {
                 iterator.remove();//使用迭代器来删除当前指向的元素
             }
         }
+*/
+
+
+        //删除满足某个条件的元素
+        boolean b = list.removeIf(e -> e.equals(5));
+        System.out.println("删除值为2的元素结果 = " + b);
 
         for (Object item : list){
             System.out.println(item);
         }
+
+//        iterator = list.iterator();
+//        iterator.forEachRemaining(System.out :: println);
     }
 
     public static void Samp1(){

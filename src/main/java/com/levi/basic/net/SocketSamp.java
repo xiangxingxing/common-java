@@ -19,9 +19,7 @@ public class SocketSamp {
         String host = "time-a.nist.gov";
         int port = 13;
         int timeout = 10000;
-        try (
-
-                var s = new Socket(host,port);
+        try (var s = new Socket(host,port);
                 //s.setSoTimeout(timeout);
                 //解决超时问题
                 /*var s = new Socket();
