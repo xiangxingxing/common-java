@@ -218,6 +218,7 @@ public class BufferedSamp {
 
     /*
      * 使用Channel的transferFrom方法实现文件的拷贝
+     *
      * */
     public static void channelSamp1(){
         try (FileInputStream fis = new FileInputStream("/Users/xiangxingxing/Downloads/ssr.jpeg");
