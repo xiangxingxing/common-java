@@ -1,6 +1,7 @@
 package com.levi.basic;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CollectionMaker {
     public static void main(String[] args) {
@@ -10,13 +11,38 @@ public class CollectionMaker {
 //        for (int item : i){
 //            System.out.println(item);
 //        }
-        ArrayCopy();
+        //ArrayCopy();
+        arrayAsList();
     }
 
+    /*
+    * 将数组转换为ArrayList
+    * 1.原数组用包装类型
+    * 2.简便: new ArrayList<>(Arrays.asList(myArray)）
+    * 3.使用流: Arrays.stream(myArray).collect(Collectors.toList())
+    * 4.使用 Guava
+    * */
+
+    public static void arrayAsList(){
+        Integer[] myArray = { 1, 2, 3 };
+        List<Integer> list = Arrays.asList(myArray);
+        List<Integer> integers = new ArrayList<>(list);
+        System.out.println(list.getClass());//class java.util.Arrays$ArrayList
+
+
+        List myList = Arrays.stream(myArray).collect(Collectors.toList());
+        myList.forEach(System.out::println);
+
+    }
+
+    /*
+     * 将ArrayList转换为数组
+     * 1.new String[0]就是起一个模板的作用，指定了返回数组的类型，0是为了节省空间，因为它只是为了说明返回的类型
+     * */
     //正确的将数组转换为ArrayList --> 使用new ArrayList<>包一层
     public static void ConvertArrayList2List(){
         List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
-        //String[] res = list.toArray(new String[list.size()]); //将list转换为String数组
+        //String[] res = list.toArray(new String[0]); //将list转换为String数组
         list.add("watermelon");
         list.remove(0);
         for (String item : list){

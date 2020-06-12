@@ -7,14 +7,14 @@ public class MergeSorter {
     public static <T extends Comparable<T>> void mergeSort(T[] array) {
         internalMergeSort(array);
     }
-public Object obj = new Object();
+
     private static <T extends Comparable<T>> T[] internalMergeSort(T[] array) {
-        if (array.length < 2){
+        if (array.length < 2) {
             return array;
         }
 
         int midIndex = array.length >> 1;
-        T[] leftCollection = Arrays.copyOfRange(array,0, midIndex);
+        T[] leftCollection = Arrays.copyOfRange(array, 0, midIndex);
         T[] rightCollection = Arrays.copyOfRange(array, midIndex, array.length);
 
         leftCollection = internalMergeSort(leftCollection);
@@ -29,19 +29,18 @@ public Object obj = new Object();
         ArrayList<T> res = new ArrayList<>();
         int left = 0;//左数组索引
         int right = 0;//右数组索引
-        while (left < leftCollection.length && right < rightCollection.length){
-            if (leftCollection[left].compareTo(rightCollection[right]) < 0){
+        while (left < leftCollection.length && right < rightCollection.length) {
+            if (leftCollection[left].compareTo(rightCollection[right]) < 0) {
                 res.add(leftCollection[left++]);
-            }
-            else {
+            } else {
                 res.add(rightCollection[right++]);
             }
         }
-        while (left < leftCollection.length){
+        while (left < leftCollection.length) {
             res.add(leftCollection[left++]);
         }
 
-        while (right < rightCollection.length){
+        while (right < rightCollection.length) {
             res.add(rightCollection[right++]);
         }
 
