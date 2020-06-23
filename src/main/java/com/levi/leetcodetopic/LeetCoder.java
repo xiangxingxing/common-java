@@ -108,12 +108,10 @@ public class LeetCoder {
 
     //leetCode05：找到 s 中最长的回文子串并返回
     public static String longestPalindrome(String s) {
-        if (s.length() == 0 || s.isEmpty()) {
-            return "";
-        }
-        if (s.length() == 1) {
+        if (Objects.isNull(s) || s.length() < 2) {
             return s;
         }
+
         //中心扩散法
         int length = 1;
         int startIndex = 0, maxLen = 0;
@@ -554,19 +552,19 @@ public class LeetCoder {
                     stack.push('[');
                     break;
                 case ')':
-                    if (!stack.isEmpty() && stack.pop().equals('(')){
+                    if (!stack.isEmpty() && stack.pop().equals('(')) {
                         break;
                     }
 
                     return false;
                 case '}':
-                    if (!stack.isEmpty() && stack.pop().equals('{')){
+                    if (!stack.isEmpty() && stack.pop().equals('{')) {
                         break;
                     }
 
                     return false;
                 case ']':
-                    if (!stack.isEmpty() && stack.pop().equals('[')){
+                    if (!stack.isEmpty() && stack.pop().equals('[')) {
                         break;
                     }
 
@@ -606,10 +604,10 @@ public class LeetCoder {
     //leetCode22 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
     public static List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
-        if(n == 0){
+        if (n == 0) {
             return res;
         }
-        dfs("", n,n,res);
+        dfs("", n, n, res);
         return res;
     }
 
@@ -620,21 +618,21 @@ public class LeetCoder {
      * @param res    结果集
      */
     private static void dfs(String curStr, int left, int right, List<String> res) {
-        if(left == 0 && right == 0){
+        if (left == 0 && right == 0) {
             res.add(curStr);
             return;
         }
 
-        if(left > right){
+        if (left > right) {
             return;
         }
 
-        if (left > 0){
+        if (left > 0) {
             dfs(curStr.concat("("), left - 1, right, res);
         }
 
-        if(right > 0){
-            dfs(curStr.concat(")"),left, right -1,res);
+        if (right > 0) {
+            dfs(curStr.concat(")"), left, right - 1, res);
         }
     }
 
@@ -667,11 +665,11 @@ public class LeetCoder {
         dummy.next = head;
         ListNode pre = dummy;
         ListNode end = dummy;
-        while (end != null){
-            for (int i = 0; i < k && end != null;i++){
+        while (end != null) {
+            for (int i = 0; i < k && end != null; i++) {
                 end = end.next;
             }
-            if (end == null){
+            if (end == null) {
                 break;
             }
 
@@ -706,8 +704,8 @@ public class LeetCoder {
     public static int removeDuplicates(int[] nums) {
         int i = 0;
         int j = 1;
-        while (j < nums.length){
-            if (nums[i] != nums[j]){
+        while (j < nums.length) {
+            if (nums[i] != nums[j]) {
                 nums[++i] = nums[j];
             }
 
@@ -720,8 +718,8 @@ public class LeetCoder {
     //leetCode27 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
     public static int removeElement(int[] nums, int val) {
         int ans = 0;
-        for (int num : nums){
-            if (num != val){
+        for (int num : nums) {
+            if (num != val) {
                 nums[ans++] = num;
             }
         }
@@ -733,14 +731,29 @@ public class LeetCoder {
     // 如果不存在，则返回  -1。
 
     public static int strStr(String haystack, String needle) {
-        if (needle == null || needle.equals("")){
+        if (needle.isEmpty()) {
             return 0;
         }
-        if(!haystack.contains(needle)){
+        /*if(!haystack.contains(needle)){
             return -1;
         }
         return haystack.indexOf(needle);
+        */
 
+        int j;
+        for (int i = 0; i < haystack.length() - needle.length() + 1; i++) {
+            for (j = 0; j < needle.length(); j++) {
+                if (haystack.charAt(i + j) != needle.charAt(j)) {
+                    break;
+                }
+            }
+            if (j == needle.length()) {
+                return i;
+            }
+
+        }
+
+        return -1;
     }
 
     //leetCode33 假设按照升序排序的数组在预先未知的某个点上进行了旋转。搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
@@ -748,25 +761,21 @@ public class LeetCoder {
         int low = 0;
         int high = nums.length - 1;
 
-        while (low <= high){
+        while (low <= high) {
             int mid = (low + high) >> 1;
             int midVal = nums[mid];
-            if (target == midVal){
+            if (target == midVal) {
                 return mid;
-            }
-            else if (midVal >= nums[low]){
-                if (target >= nums[low] && target < midVal){
+            } else if (midVal >= nums[low]) {
+                if (target >= nums[low] && target < midVal) {
                     high = mid - 1;
+                } else {
+                    low = mid + 1;
                 }
-                else {
-                    low = mid+1;
-                }
-            }
-            else {
-                if (target <= nums[high] && target > midVal){
-                    low = mid+1;
-                }
-                else {
+            } else {
+                if (target <= nums[high] && target > midVal) {
+                    low = mid + 1;
+                } else {
                     high = mid - 1;
                 }
             }
@@ -786,8 +795,7 @@ public class LeetCoder {
                 for (left = mid; left > low; ) {
                     if (nums[left] == nums[left - 1]) {
                         left--;
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 }
@@ -795,8 +803,7 @@ public class LeetCoder {
                 for (right = mid; right < high; ) {
                     if (nums[right] == nums[right + 1]) {
                         right++;
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 }

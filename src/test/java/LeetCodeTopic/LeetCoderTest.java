@@ -1,6 +1,7 @@
 package LeetCodeTopic;
 
 import com.levi.leetcodetopic.LeetCoder;
+import com.levi.leetcodetopic.LeetReview;
 import com.levi.leetcodetopic.ListNode;
 
 import org.junit.Assert;
@@ -65,9 +66,17 @@ public class LeetCoderTest {
 
     @Test
     public void LeetCode5_Test(){
-        String str = "cqzdabade";
-        String expected = "dabad";
+        String str = "abcdcbe";
+        String expected = "bcdcb";
         String result = LeetCoder.longestPalindrome(str);
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void LeetCode5_Test2(){
+        String str = "abcdcbe";
+        String expected = "bcdcb";
+        String result = LeetReview.longestPalindrome(str);
         Assert.assertEquals(expected, result);
     }
 
