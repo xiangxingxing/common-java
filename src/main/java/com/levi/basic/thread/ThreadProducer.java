@@ -35,7 +35,7 @@ class Producer implements Runnable {
             synchronized (collection) {
                 if (collection.size() > 2) {
                     try {
-                        collection.wait();
+                        collection.wait();//进入等待状态,并释放对象锁
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -43,6 +43,10 @@ class Producer implements Runnable {
                     Object obj = new Object();
                     collection.add(obj);
                     System.out.println(Thread.currentThread().getName() + "生产了一个对象：" + obj);
+                    /*
+                    * notify()方法会随机叫醒一个正在等待的线程，而notifyAll()会叫醒所有正在等待的线程。
+                    *【注】这个时候线程B并没有释放锁lock,除非线程B这个时候使用lock.wait()释放锁，或者线程B执行结束自行释放锁
+                    * */
                     collection.notify();
                 }
             }

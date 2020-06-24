@@ -41,13 +41,12 @@ public class CollectionMaker {
      * */
     //正确的将数组转换为ArrayList --> 使用new ArrayList<>包一层
     public static void ConvertArrayList2List(){
-        List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
-        //String[] res = list.toArray(new String[0]); //将list转换为String数组
+        //List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
+        List<String> list = new ArrayList<>(List.of("apple","banana","strawberry"));
+        //String[] res = list.toArray(new String[list.size()]); //将list转换为String数组
         list.add("watermelon");
-        list.remove(0);
-        for (String item : list){
-            System.out.println(item);
-        }
+        //list.remove(0);
+        list.forEach(System.out :: println);
     }
 
     //移除数组元素不能用foreach，应利用集合的迭代器
