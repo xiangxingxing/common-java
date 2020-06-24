@@ -20,13 +20,21 @@ public class MyTree {
         right.setLeft(60);
         right.setRight(22);
 
+        //中序遍历
         //inOrder(root);//should be : 10 3 2 24 60 5 22
         //inOrderNonRecursion(root);
 
+        //前序遍历
         //preOrder(root);//should be : 24 3 10 2 5 60 22
         //System.out.print("\n");
         //preOrderNonRecursive(root);
-        levelOrder(root);
+
+        //后序遍历 should be : 10 2 3 60 22 5 24
+        //postOrder(root);
+        postOrderNonRecursive(root);
+
+        //层次遍历
+        //levelOrder(root);
     }
 
     public static <T> void preOrder(MyTreeNode<T> root) {
@@ -74,6 +82,41 @@ public class MyTree {
             else {
                 p = stack.pop();
                 p = p.right;
+            }
+        }
+    }
+
+    //后序遍历
+    public static <T> void postOrder(MyTreeNode<T> root){
+        if (!Objects.isNull(root)){
+            postOrder(root.left);
+            postOrder(root.right);
+            System.out.print(root.value + " ");
+        }
+    }
+
+    public static <T> void postOrderNonRecursive(MyTreeNode<T> root){
+        var stack = new Stack<MyTreeNode<T>>();
+        var p = root;
+        MyTreeNode<T> visited = null;//记录最近访问过的节点
+        while (!Objects.isNull(p) || !stack.empty()){
+            if (!Objects.isNull(p)){
+                stack.push(p);
+                p = p.left;
+            }
+            else {
+                p = stack.peek();
+                if (!Objects.isNull(p.right) && visited != p.right){
+                    p = p.right;
+                    stack.push(p);
+                    p = p.left;
+                }
+                else {
+                    p = stack.pop();
+                    System.out.print(p.value + " ");
+                    visited = p;
+                    p = null;
+                }
             }
         }
     }
