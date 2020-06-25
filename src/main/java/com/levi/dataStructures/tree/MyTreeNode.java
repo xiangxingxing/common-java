@@ -9,6 +9,12 @@ public class MyTreeNode<T> {
         this.value = value;
     }
 
+    MyTreeNode(T val, MyTreeNode<T> left, MyTreeNode<T> right) {
+         this.value = val;
+         this.left = left;
+         this.right = right;
+     }
+
     public MyTreeNode<T> setLeft(T value){
         this.left = new MyTreeNode<>(value);
         return left;

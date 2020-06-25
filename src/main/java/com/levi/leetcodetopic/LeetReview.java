@@ -1,8 +1,8 @@
 package com.levi.leetcodetopic;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.levi.dataStructures.tree.MyTreeNode;
+
+import java.util.*;
 
 public class LeetReview {
     //leetCode03 不含有重复字符的 最长子串 的长度
@@ -55,5 +55,43 @@ public class LeetReview {
         }
 
         return s.substring(maxStart, maxEnd + 1);
+    }
+
+    /*
+     *   leetCode102 请你返回其按 层序遍历 得到的节点值
+     *   leetCode107 反转结果集
+     */
+    public static List<List<Integer>> levelOrder(MyTreeNode<Integer> root) {
+        var list = new ArrayList<List<Integer>>();
+        var queue = new LinkedList<MyTreeNode<Integer>>();
+        MyTreeNode<Integer> node;
+        if (root != null) {
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            var array = new ArrayList<Integer>();
+            for (int i = 0; i < size; i++) {
+                node = queue.poll();
+                array.add(node.value);
+                if (!Objects.isNull(node.left)) {
+                    queue.offer(node.left);
+                }
+                if (!Objects.isNull(node.right)) {
+                    queue.offer(node.right);
+                }
+            }
+
+            list.add(array);
+        }
+
+        var length = list.size();
+        int mid = length >>> 1;
+        for (int i = 0; i < mid; i++) {
+            var temp = list.get(i);
+            list.set(i, list.get(length - i - 1));
+            list.set(length - i - 1, temp);
+        }
+        return list;
     }
 }

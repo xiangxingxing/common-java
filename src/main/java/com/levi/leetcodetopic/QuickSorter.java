@@ -1,9 +1,6 @@
 package com.levi.leetcodetopic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-public class MySorter {
+public class QuickSorter {
     public static void main(String[] args) {
         Integer[] integers = {32, 41, 12, 3, 66, 8, 48, 90, 41};
         quickSort(integers);// 3 8 12 32 41 41 48 66 90
