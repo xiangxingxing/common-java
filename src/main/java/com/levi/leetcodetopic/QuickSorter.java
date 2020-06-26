@@ -1,13 +1,14 @@
 package com.levi.leetcodetopic;
 
+import java.util.Arrays;
+
 public class QuickSorter {
     public static void main(String[] args) {
         Integer[] integers = {32, 41, 12, 3, 66, 8, 48, 90, 41};
-        quickSort(integers);// 3 8 12 32 41 41 48 66 90
+        Integer[] expected  = {3, 8, 12, 32, 41, 41, 48, 66, 90};
 
-        for (Integer i : integers) {
-            System.out.print(i + " ");
-        }
+        quickSort(integers);// 3 8 12 32 41 41 48 66 90
+        System.out.println(Arrays.equals(integers, expected));
 
     }
 

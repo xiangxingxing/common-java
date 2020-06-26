@@ -7,11 +7,10 @@ public class MergeSorter {
 
     public static void main(String[] args) {
         Integer[] integers = {32, 41, 12, 3, 66, 8, 48, 90, 41};
-        mergeSort(integers);// 3 8 12 32 41 41 48 66 90
+        Integer[] expected  = {3, 8, 12, 32, 41, 41, 48, 66, 90};
 
-        for (Integer i : integers) {
-            System.out.print(i + " ");
-        }
+        mergeSort(integers);// 3 8 12 32 41 41 48 66 90
+        System.out.println(Arrays.equals(integers, expected));//true
 
     }
 
@@ -45,7 +44,11 @@ public class MergeSorter {
 
         while (left < leftCollection.length && right < rightCollection.length) {
             if (leftCollection[left].compareTo(rightCollection[right]) < 0) {
-                //arrayList.set(index++, leftCollection[left++]); ‼️不能用set‼️
+                /*
+                        ‼️不能用set‼️
+                        ‼️要使用add方法为数组添加新元素，而不是set方法，set方法只是用来替换数组中已经加入的元素‼️
+                * */
+                //arrayList.set(index++, leftCollection[left++]);
                 arrayList.add(index++, leftCollection[left++]);
             } else {
                 arrayList.add(index++, rightCollection[right++]);

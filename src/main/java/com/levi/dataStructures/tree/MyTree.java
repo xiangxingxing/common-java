@@ -11,7 +11,7 @@ public class MyTree {
      *
      * */
     public static void main(String[] args) {
-        var root = new MyTreeNode<>(24);
+        var root = new MyTreeNode<Integer>(24);
         var left = root.setLeft(3);
         left.setLeft(10);
         left.setRight(2);
