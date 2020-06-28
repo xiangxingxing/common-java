@@ -189,7 +189,7 @@ public class MyTree {
         return b1 && b2;
     }
 
-    //leetCode110 是否平衡
+    //leetCode110 是否平衡 --> 后续遍历，保证每个节点只遍历一次
     public static <T> boolean isBalanced(MyTreeNode<T> root) {
         return balanced(root) != -1;
     }
