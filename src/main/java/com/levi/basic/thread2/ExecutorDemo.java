@@ -91,6 +91,7 @@ public class ExecutorDemo {
                         return path;
                     }
 
+                    //感知到中断，并放弃它的工作
                     if (Thread.currentThread().isInterrupted()){
                         System.out.println("Search in " + path + " canceled");
                         return null;
