@@ -18,8 +18,8 @@ public class MinHeapSorter {
     }
 
     private static <T extends Comparable<T>> void BuildMinHeap(T[] array) {
-        int lastIndex = array.length - 1;
-        int lastNodeWithChild = lastIndex >>> 1;
+        var lastIndex = array.length - 1;
+        int lastNodeWithChild = (array.length >>> 1) - 1;
         for (int i = lastNodeWithChild; i >= 0; i--) {
             AdjustMinHeap(array, i, lastIndex);
         }

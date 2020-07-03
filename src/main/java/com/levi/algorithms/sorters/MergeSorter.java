@@ -13,7 +13,7 @@ public class MergeSorter {
             return array;
         }
 
-        int midIndex = array.length >> 1;
+        int midIndex = array.length >> 1;//‼️必须为中间索引‼️
         T[] leftCollection = Arrays.copyOfRange(array, 0, midIndex);
         T[] rightCollection = Arrays.copyOfRange(array, midIndex, array.length);
 

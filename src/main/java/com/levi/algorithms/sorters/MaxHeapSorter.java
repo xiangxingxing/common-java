@@ -5,7 +5,7 @@ import com.levi.common.Utilities;
 public class MaxHeapSorter {
 
     public static <T extends Comparable<T>> void MaxHeapSort(T[] array) {
-        //第一步：将集合构建成大根堆:从最后一个分支结点向前遍历进行堆调整
+        //第一步：构建成大根堆:从最后一个分支结点向前遍历进行堆调整
         BuildMaxHeap(array);
         int lastIndex = array.length - 1;
         //第二部：从大根堆的最后一个元素开始，与第一个最大的元素进行交换，之后再进行第一个位置的堆调整
@@ -18,7 +18,7 @@ public class MaxHeapSorter {
 
     private static <T extends Comparable<T>> void BuildMaxHeap(T[] array) {
         int lastIndex = array.length - 1;
-        int lastNodeWithChild = lastIndex >>> 1;
+        int lastNodeWithChild = (array.length >>> 1) - 1;
         for (int i = lastNodeWithChild; i >= 0; i--) {
             AdjustMaxHeap(array, i, lastIndex);
         }

@@ -11,13 +11,13 @@ public class NIOServer {
     public static void main(String[] args) throws IOException {
         ServerSocketChannel ssc = ServerSocketChannel.open();
 
-        //得到一个selector对象
+        //得到一个selector选择器对象
         Selector selector = Selector.open();
 
         //绑定端口6666，服务器监听
         ssc.socket().bind(new InetSocketAddress(6666));
 
-        //设置为非阻塞
+        //设置为非阻塞，因为要注册到selector，Channel必须为非阻塞模式
         ssc.configureBlocking(false);
 
         //将服务器的serverSocketChannel注册到selector上，关心事件为OP_ACCEPT
@@ -56,10 +56,10 @@ public class NIOServer {
                     //通过key反向获取该客户端的对应的channel
                     SocketChannel channel = (SocketChannel) key.channel();
                     //获取到该channel关联的buffer
-                    ByteBuffer byteBuffer = (ByteBuffer) key.attachment();
+                    ByteBuffer byteBuffer = (ByteBuffer) key.attachment();//得到与key关联的共享数据
                     //将当前通道数据读入到buffer
                     channel.read(byteBuffer);
-                    System.out.println("from client " + new String(byteBuffer.array()));
+                    System.out.println("from client " + new String(byteBuffer.array(), 0 ,byteBuffer.array().length));
 
                 }
 
