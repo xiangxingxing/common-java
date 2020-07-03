@@ -59,7 +59,7 @@ public class NIOServer {
                     ByteBuffer byteBuffer = (ByteBuffer) key.attachment();//得到与key关联的共享数据
                     //将当前通道数据读入到buffer
                     channel.read(byteBuffer);
-                    System.out.println("from client " + new String(byteBuffer.array(), 0 ,byteBuffer.array().length));
+                    System.out.println("from client " + new String(byteBuffer.array()).trim());
 
                 }
 
