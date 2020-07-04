@@ -7,7 +7,6 @@ public class BinarySearcher {
         matrix[1] = new int[]{10, 11, 16, 20};
         matrix[2] = new int[]{23, 30, 34, 50};
 
-
     }
 
     public static <T extends Comparable<T>> int BinarySearch(T[] array, T target) {

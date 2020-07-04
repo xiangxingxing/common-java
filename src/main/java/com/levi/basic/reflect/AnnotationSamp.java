@@ -2,6 +2,9 @@ package com.levi.basic.reflect;
 
 import java.lang.reflect.Method;
 
+/*
+* 读取注解，需要使用反射API
+* */
 @MyAnnotation(username = "levi", password = 123)
 public class AnnotationSamp {
     public static void main(String[] args) {

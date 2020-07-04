@@ -3,6 +3,7 @@ package com.levi.basic.net;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.*;
+import java.util.Enumeration;
 import java.util.Scanner;
 
 public class SocketSamp {
@@ -10,6 +11,7 @@ public class SocketSamp {
         try {
             //samp1();
             samp2(args);
+            getIPAddress();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,4 +51,28 @@ public class SocketSamp {
             System.out.println(localHostAddress);
         }
     }
+
+    //获取IP地址
+    public static void getIPAddress(){
+        try{
+            Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (allNetInterfaces.hasMoreElements()){
+                NetworkInterface netInterface = (NetworkInterface) allNetInterfaces.nextElement();
+                Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
+                while (addresses.hasMoreElements()){
+                    InetAddress ip = (InetAddress) addresses.nextElement();
+                    if (ip != null
+                            && ip instanceof Inet4Address
+                            && !ip.isLoopbackAddress() //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
+                            && ip.getHostAddress().indexOf(":") == -1){
+                        System.out.println("本机的IP = " + ip.getHostAddress());
+                    }
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
+
+

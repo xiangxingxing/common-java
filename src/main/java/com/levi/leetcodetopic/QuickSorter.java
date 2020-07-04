@@ -12,51 +12,35 @@ public class QuickSorter {
 
     }
 
-    public static <T extends Comparable<T>> void quickSort(T[] collection) {
+    public static <T extends Comparable<T>> void quickSort(T[] array){
         int left = 0;
-        int right = collection.length - 1;
-        quickSort(collection, left, right);
-
+        int right = array.length - 1;
+        quickSort(array,left, right);
     }
 
-    private static <T extends Comparable<T>> void quickSort(T[] collection, int left, int right) {
-        if (left < right) {
-            int pivot = partition(collection, left, right);
-            quickSort(collection, left, pivot - 1);
-            quickSort(collection, pivot + 1, right);
+    private static <T extends Comparable<T>> void quickSort(T[] array, int start, int end){
+        if (start < end){
+            int pivot = partition(array, start, end);
+            quickSort(array, 0, pivot - 1);
+            quickSort(array, pivot + 1, end);
         }
-
     }
 
-    private static <T extends Comparable<T>> int partition(T[] collection, int left, int right) {
-        T value = collection[left];
-
-        while (left < right) {
-
-            while (left < right && collection[right].compareTo(value) >= 0) {
-                right--;
+    private static <T extends Comparable<T>> int partition(T[] array, int start, int end){
+        var temp = array[start];
+        while (start < end){
+            while (start < end && array[end].compareTo(temp) >= 0){
+                end--;
             }
+            array[start] = array[end];
 
-            collection[left] = collection[right];
-
-            while (left < right && collection[left].compareTo(value) <= 0) {
-                left++;
+            while (start < end && array[start].compareTo(temp) <= 0){
+                start++;
             }
-
-            collection[right] = collection[left];
-        }
-        collection[left] = value;
-
-        return left;
-    }
-
-    private static <T extends Comparable<T>> void swap(T[] collection, int index1, int index2) {
-        if (collection.length < 2) {
-            return;
+            array[end] = array[start];
         }
 
-        var temp = collection[index1];
-        collection[index1] = collection[index2];
-        collection[index2] = temp;
+        array[start] = temp;
+        return start;
     }
 }
