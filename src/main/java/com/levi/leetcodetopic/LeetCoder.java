@@ -640,22 +640,14 @@ public class LeetCoder {
     //不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
     public static ListNode swapPairs(ListNode head) {
         ListNode current = head;
-        if (current == null) {
-            return null;
+        if (current == null || current.next == null) {
+            return current;
         }
         ListNode pNext = current.next;
-        ListNode reversed = current;
-        ListNode temp;
-        if (pNext != null) {
-            reversed = pNext;
-
-            current.next = null;
-            temp = pNext.next;
-            pNext.next = current;
-            current.next = swapPairs(temp);
-        }
-
-        return reversed;
+        var remained = pNext.next;
+        pNext.next = current;
+        current.next = swapPairs(remained);
+        return pNext;
     }
 
     //leetCode25 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。

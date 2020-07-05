@@ -1,13 +1,13 @@
 package com.levi.dataStructures.list;
 
 
-/*
+/**
 *       ‼️1.头结点是否可能变，若可能变的话，就设置dummy节点‼️
 *       ‼️2.需要先保存后续节点，再调整当前节点的指向‼️
 * */
 public class MyLinkedList {
 
-    /*
+    /**
         leetCode82:给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字
         1->2->3->3->4->4->5  :  1->2->5
     */
@@ -49,7 +49,7 @@ public class MyLinkedList {
 
     }
 
-    /*
+    /**
         leetCode206:反转一个单链表
         1->2->3->4->5->NULL  :  5->4->3->2->1->NULL
     */
@@ -69,7 +69,7 @@ public class MyLinkedList {
         return pre;
     }
 
-    /*
+    /**
     *   LeetCode92:反转从位置 m 到 n 的链表。请使用一趟扫描完成反转
     *   输入: 1->2->3->4->5->NULL, m = 2, n = 4
     *   输出: 1->4->3->2->5->NULL
@@ -94,7 +94,7 @@ public class MyLinkedList {
         int j = i;
         while (j < n){
             var pre = nNode;
-            nNode = nPostNode;
+            nNode = nPostNode;//右移
             nPostNode = nNode.next;//保存
             //修改nNode指针
             nNode.next = pre;
@@ -108,7 +108,8 @@ public class MyLinkedList {
         return dummy.next;
     }
 
-    /*
+    /**
+     *   【递归实现】
      *   leetCode21. 合并两个有序链表
      * */
     public static <T extends Comparable<T>> ListNode<T> mergeTwoLists(ListNode<T> l1, ListNode<T> l2) {
@@ -132,7 +133,24 @@ public class MyLinkedList {
         return mergedHead;
     }
 
-    /*
+    /**
+     *  【递归实现】
+     *  leetCode24 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+     *  不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     *
+    * */
+    public static <T> ListNode<T> swapPairs(ListNode<T> head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode<T> pNext = head.next;
+        var remained = pNext.next;
+        pNext.next = head;
+        head.next = swapPairs(remained);
+        return pNext;
+    }
+
+    /**
     * leetCode86. 分隔链表
     * 给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
         应当保留两个分区中每个节点的初始相对位置。
@@ -141,9 +159,9 @@ public class MyLinkedList {
     * */
     public static <T extends Comparable<T>> ListNode<T> partition(ListNode<T> head, T x) {
         ListNode<T> beforeHead = new ListNode(0);
-        ListNode<T> before = beforeHead;
+        ListNode<T> before = beforeHead;//尾指针
         ListNode<T> afterHead = new ListNode(0);
-        ListNode<T> after = afterHead;
+        ListNode<T> after = afterHead;//尾指针
         ListNode<T> node = head;
 
         while (node != null){
@@ -189,7 +207,7 @@ public class MyLinkedList {
         return false;
     }
 
-    /*
+    /**
         LeetCode142：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null
     */
     public static <T> ListNode<T> detectCycle(ListNode<T> head) {
@@ -243,7 +261,7 @@ public class MyLinkedList {
         return null;
     }
 
-    /*
+    /**
     * leetCode234:请判断一个链表是否为回文链表
     * */
     public boolean isPalindrome(ListNode head) {
@@ -270,7 +288,7 @@ public class MyLinkedList {
         return true;
     }
 
-    /*
+    /**
     * leetCode148:在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序
     * 输入: -1->5->3->4->0
     * 输出: -1->0->3->4->5
@@ -299,7 +317,7 @@ public class MyLinkedList {
 
     }
 
-    /*  leetCode867
+    /**  leetCode876
     * 给定一个带有头结点 head 的非空单链表，返回链表的中间结点。如果有两个中间结点，则返回第二个中间结点。
     * 输入：[1,2,3,4,5]
     * 输出：此列表中的结点 3 (序列化形式：[3,4,5])
@@ -313,7 +331,8 @@ public class MyLinkedList {
         }
 
         ListNode slow = head;
-        //ListNode fast = head;//leetCode867 中fast初始为head
+        //ListNode fast = head;//‼️leetCode876 中fast初始为head‼️
+
         ListNode fast = head.next.next;//此处fast初始为head.next.next，这样获取的middleNode为中心节点的前一个，方便归并排序
         while (fast != null && fast.next != null){
             slow = slow.next;

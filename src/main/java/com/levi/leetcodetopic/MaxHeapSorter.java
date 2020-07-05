@@ -11,19 +11,18 @@ public class MaxHeapSorter {
         System.out.println(Arrays.equals(integers, expected));//true
     }
 
+    /**
+     *       1.构造大顶堆(从最后一个分支节点往前调整) buildMaxHeap
+     *       2.lastIndex-- 循环交换收尾元素，堆调整首元素
+     * */
     public static <T extends Comparable<T>> void heapSort(T[] array){
-        /*
-        *       1.构造大顶堆(从最后一个分支节点往前调整) buildMaxHeap
-        * */
+
         var lastIndex = array.length - 1;
         var lastNodeWithChild = array.length / 2 - 1;
         for (int i = lastNodeWithChild; i >= 0;i--){
             AdjustHeap(array, i, lastIndex);
         }
 
-        /*
-        *       2.lastIndex-- 循环交换收尾元素，堆调整首元素
-        * */
         while (lastIndex >= 0){
             swapTwo(array, 0, lastIndex);
             lastIndex--;

@@ -3,7 +3,7 @@ package com.levi.dataStructures.tree;
 import java.util.*;
 
 public class MyTree {
-    /*
+    /**
      * example tree
      *               24
      *        3               5
@@ -35,6 +35,7 @@ public class MyTree {
 
         //层次遍历
         //levelOrder(root);
+        levelOrder2(root);
 
         //求树的深度
         //System.out.println(maxDepth(root));
@@ -43,8 +44,8 @@ public class MyTree {
         //System.out.println(isBalanced(root));
 
         //最近公共祖先
-        var node = lowestCommonAncestor(root, left, r1);
-        System.out.println(node.value);
+        //var node = lowestCommonAncestor(root, left, r1);
+        //System.out.println(node.value);
     }
 
     public static <T> void preOrder(MyTreeNode<T> root) {
@@ -131,7 +132,11 @@ public class MyTree {
     //DFS
 
 
-    //BFS
+    /**
+     * 层次遍历借助队列
+     * @param root 树
+     * @param <T>  存储类型
+     */
     public static <T> void levelOrder(MyTreeNode<T> root) {
         if (Objects.isNull(root)) {
             return;
@@ -152,8 +157,46 @@ public class MyTree {
         }
     }
 
-    /*
-     * 分治
+    /**
+     * 剑指32:从上到下打印树
+     *  ，
+     *  ，，
+     *  ，，，，
+    * */
+    public static <T> void levelOrder2(MyTreeNode<T> root){
+        if (root == null){
+            return;
+        }
+
+        var queue = new LinkedList<MyTreeNode<T>>();
+        queue.add(root);
+        int nextLevel = 0;//表示下一层节点的数目
+        int toBePrint = 1;//表示当前层还没有打印的个数
+        while (!queue.isEmpty()){
+            MyTreeNode<T> node = queue.poll();
+            System.out.print(node.value + " ");
+            toBePrint--;
+            if (node.left != null){
+                queue.offer(node.left);
+                nextLevel++;
+            }
+            if (node.right != null){
+                queue.offer(node.right);
+                nextLevel++;
+            }
+
+            if (toBePrint == 0){
+                System.out.println();
+                toBePrint = nextLevel;
+                nextLevel = 0;
+            }
+        }
+
+    }
+
+    /**
+     * 分治思想
+     *    求树的深度
      *
      * */
     public static <T> int maxDepth(MyTreeNode<T> root) {
@@ -215,16 +258,16 @@ public class MyTree {
     //leetCode236 两节点最近公共祖先
     public static <T> MyTreeNode<T> lowestCommonAncestor(MyTreeNode<T> root, MyTreeNode<T> p1, MyTreeNode<T> p2) {
 
-        if (root == p1 || root == p2 || Objects.isNull(root)) {
+        if (root == p1 || root == p2 || root == null) {
             return root;
         }
 
         var left = lowestCommonAncestor(root.left, p1, p2);
         var right = lowestCommonAncestor(root.right, p1, p2);
 
-        if (!Objects.isNull(left) && !Objects.isNull(right)) {
+        if (left != null && right != null) {
             return root;
-        } else if (!Objects.isNull(left)) {
+        } else if (left != null) {
             return left;
         } else {
             return right;
@@ -246,6 +289,25 @@ public class MyTree {
         }
 
         return root;
+    }
+
+    //LeetCode101.对称二叉树:给定一个二叉树，检查它是否是镜像对称的
+    public boolean isSymmetric(MyTreeNode root) {
+        return isSymmetric(root, root);
+    }
+
+    private boolean isSymmetric(MyTreeNode p1, MyTreeNode p2) {
+        if (p1 == null && p2 == null){
+            return true;
+        }
+        if (p1 == null || p2 == null){
+            return false;
+        }
+        if (p1.value != p2.value){
+            return false;
+        }
+
+        return isSymmetric(p1.left, p2.right) && isSymmetric(p1.right, p2.left);
     }
 
 }
