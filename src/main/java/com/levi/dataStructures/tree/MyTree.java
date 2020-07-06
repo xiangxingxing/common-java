@@ -284,12 +284,33 @@ public class MyTree {
         else if (root.value.compareTo(val) > 0){
             root.left = insertIntoBST(root.left, val);
         }
-        else {
+        else if (root.value.compareTo(val) < 0) {
             root.right = insertIntoBST(root.right, val);
         }
 
         return root;
     }
+
+    /**
+    *   LeetCode108. 将有序数组转换为二叉搜索树
+     *  将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树
+    * */
+    public MyTreeNode sortedArrayToBST(int[] nums) {
+        return insertBST(nums,0, nums.length - 1);
+    }
+
+    public MyTreeNode insertBST(int[] nums, int left, int right){
+        if(left > right){
+            return null;
+        }
+        int mid = (left + right) >>> 1;
+        MyTreeNode root = new MyTreeNode(nums[mid]);
+        root.left = insertBST(nums, left, mid - 1 );
+        root.right = insertBST(nums, mid + 1, right);
+
+        return root;
+    }
+
 
     //LeetCode101.对称二叉树:给定一个二叉树，检查它是否是镜像对称的
     public boolean isSymmetric(MyTreeNode root) {
@@ -309,5 +330,11 @@ public class MyTree {
 
         return isSymmetric(p1.left, p2.right) && isSymmetric(p1.right, p2.left);
     }
+
+    /**
+    *   二叉搜索树的生成
+     *  LeetCode95.不同的二叉搜索树 II
+     *      给定一个整数 n，生成所有由 1 ... n 为节点所组成的 二叉搜索树
+    * */
 
 }

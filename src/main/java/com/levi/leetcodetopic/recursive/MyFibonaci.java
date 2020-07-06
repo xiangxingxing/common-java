@@ -6,6 +6,54 @@ public class MyFibonaci {
     }
 
     /**
+     * LeetCode509. 斐波那契数
+     */
+    public int fib(int N) {
+        /* 效率最低
+        if (N < 2){
+            return N;
+        }
+
+        return fib(N - 1) + fib(N - 2);
+        */
+
+        /* 非递归
+        if (N < 2){
+            return N;
+        }
+
+        int n1 = 0;
+        int n2 = 1;
+        int res = 0;
+        for (int i = 2; i <= N; i++){
+            res = n1 + n2;
+            n1 = n2;
+            n2 = res;
+        }
+
+        return res;
+        */
+        int[] nums = new int[N + 1];//缓存
+        return internalFib(N, nums);
+
+    }
+
+    public int internalFib(int N, int[] tb) {
+        if (tb[N] != 0) {
+            return tb[N];
+        }
+
+        if (N < 2) {
+            tb[N] = N;
+            return N;
+        }
+
+        tb[N] = internalFib(N - 1, tb) + internalFib(N - 2, tb);
+
+        return tb[N];
+    }
+
+    /**
      * LeetCode70. 爬楼梯
      * 1.递归
      * 通过构造n+1大小的数组,用于存储F(n),避免重复计算
@@ -18,7 +66,7 @@ public class MyFibonaci {
     }
 
     /**
-     * @param n 第n层楼梯
+     * @param n     第n层楼梯
      * @param array array[n]存放爬n层楼梯所需步数
      */
     private static int climbStairsMethod(int n, int[] array) {
