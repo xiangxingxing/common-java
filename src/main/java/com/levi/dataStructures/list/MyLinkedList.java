@@ -1,6 +1,8 @@
 package com.levi.dataStructures.list;
 
 
+import java.util.Stack;
+
 /**
 *       ‼️1.头结点是否可能变，若可能变的话，就设置dummy节点‼️
 *       ‼️2.需要先保存后续节点，再调整当前节点的指向‼️
@@ -362,6 +364,130 @@ public class MyLinkedList {
         }
 
         return merged;
+    }
+
+    /**
+     * LeetCode445. 两数相加 II
+     *  输入：(7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
+     *  输出： 7 -> 8 -> 0 -> 7
+     *
+     *  两种方法: 1.反转链表后相加  2.利用栈
+     * */
+    public MyListNode addTwoNumbers(MyListNode l1, MyListNode l2) {
+        //方法1:链表反转后相加
+        //l1 = reversed(l1);
+        //l2 = reversed(l2);
+        //return addTwoNum(l1, l2);
+
+        //方法2:利用栈后进先出
+        Stack<Integer> s1 = new Stack<>();
+        Stack<Integer> s2 = new Stack<>();
+        MyListNode list1 = l1;
+        MyListNode list2 = l2;
+        while (list1 != null) {
+            s1.push(list1.val);
+            list1 = list1.next;
+        }
+
+        while (list2 != null) {
+            s2.push(list2.val);
+            list2 = list2.next;
+        }
+
+        int carry = 0;
+        MyListNode dummy = new MyListNode(0);
+        while (!s1.isEmpty() || !s2.isEmpty()){
+            int x = s1.isEmpty() ? 0 : s1.peek();
+            int y = s2.isEmpty() ? 0 : s2.peek();
+            int sum = x + y + carry;
+            carry = sum / 10;
+            int value = sum % 10;
+            var newNode = new MyListNode(value);
+            newNode.next = dummy.next;
+            dummy.next = newNode;
+
+            if (!s1.isEmpty()){
+                s1.pop();
+            }
+
+            if (!s2.isEmpty()){
+                s2.pop();
+            }
+        }
+
+        if (carry > 0){
+            var newNode = new MyListNode(carry);
+            newNode.next = dummy.next;
+            dummy.next = newNode;
+        }
+
+        return dummy.next;
+
+    }
+
+    private MyListNode reversed(MyListNode head){
+        MyListNode cur = head;
+        MyListNode pre = null;
+        while (cur != null){
+            var next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+
+        return pre;
+    }
+
+    public static void main(String[] args) {
+        var n1 = new MyListNode(2);
+        n1.next = new MyListNode(4);
+        n1.next.next = new MyListNode(3);
+
+        var n2 = new MyListNode(5);
+        n2.next = new MyListNode(6);
+        n2.next.next = new MyListNode(4);
+
+        MyListNode node = addTwoNum(n1, n2);//807
+
+    }
+
+    /**
+     * LeetCode2. 两数相加I【变式:对结果做了反转处理,头插法】
+     *  输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+     *  输出： 7 -> 0 -> 8
+     *  原因： 342 + 465 = 807
+     * */
+    public static MyListNode addTwoNum(MyListNode l1, MyListNode l2) {
+        var dummy = new MyListNode(0);
+        //MyListNode cur = dummy;//尾指针 -> 尾插法
+        int carry = 0;
+        while (l1 != null || l2 != null){
+            int x = l1 == null ? 0 : l1.val;
+            int y = l2 == null ? 0 : l2.val;
+
+            int sum = x + y + carry;
+            int value = sum % 10;
+            carry = sum / 10;
+            var newNode = new MyListNode(value);
+            newNode.next = dummy.next;//头插法
+            dummy.next = newNode;
+
+            if (l1 != null){
+                l1 = l1.next;
+            }
+
+            if (l2 != null){
+                l2 = l2.next;
+            }
+        }
+
+        if (carry > 0){
+            var newNode = new MyListNode(carry);
+            newNode.next = dummy.next;//头插法
+            dummy.next = newNode;
+        }
+
+        return dummy.next;
     }
 
 }

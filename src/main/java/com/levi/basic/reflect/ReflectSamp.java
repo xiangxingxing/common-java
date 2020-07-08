@@ -1,7 +1,12 @@
 package com.levi.basic.reflect;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.time.Instant;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /*
@@ -20,11 +25,12 @@ import java.util.ResourceBundle;
 * */
 
 public class ReflectSamp {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReflectSamp.class);
 
     public static void main(String[] args) {
-        //samp1();
+        samp1();
         //samp2();
-        samp3();
+        //samp3();
     }
 
     //【类路径：在src下的都是类路径】src是类的根路径
@@ -32,7 +38,7 @@ public class ReflectSamp {
     public static void samp1() {
         String path = Thread.currentThread().getContextClassLoader()
                 .getResource("common.properties").getPath();
-        System.out.println(path);
+        LOGGER.info(path);
     }
 
     //资源绑定器
