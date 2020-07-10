@@ -838,4 +838,41 @@ public class LeetCoder {
 
         return index;
     }
+
+    /**
+     * LeetCode42.给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水
+     * 思路
+     *      1.用lMax[]和rMax[]分别存储第i个位置左侧和右侧最高值
+     *      2.第i个位置的接水量 = min(lMax(i), rMax(i)) - height[i]
+     *      3.时间复杂度 = 空间复杂度 = O(n)
+     * */
+    public static int trap(int[] height) {
+        if (height == null || height.length < 3) {
+            return 0;
+        }
+        int ans = 0;
+        int n = height.length;
+        int[] lMax = new int[n];
+        int[] rMax = new int[n];
+        //初始化
+        lMax[0] = height[0];
+        rMax[n - 1] = height[n - 1];
+
+        //为两数组赋值
+        for (int i = 1; i < n; i++) {
+            lMax[i] = Math.max(height[i], lMax[i - 1]);
+        }
+
+        for (int j = n - 2; j >= 0; j--) {
+            rMax[j] = Math.max(height[j], rMax[j + 1]);
+        }
+
+        int k = 1;
+        while (k < n - 1) {
+            ans += Math.min(lMax[k], rMax[k]) - height[k];
+            k++;
+        }
+
+        return ans;
+    }
 }

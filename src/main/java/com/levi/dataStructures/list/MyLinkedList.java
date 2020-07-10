@@ -271,7 +271,7 @@ public class MyLinkedList {
         ListNode reversed = null;
         ListNode cur = head;
         while (cur != null){
-            var node = new ListNode(cur.val);
+            var node = new ListNode(cur.val);//新增等值节点
             node.next = reversed;
             reversed = node;
             cur = cur.next;
@@ -288,6 +288,39 @@ public class MyLinkedList {
         }
 
         return true;
+    }
+
+    /**
+     * leetCode234:请判断一个链表是否为回文链表
+     * */
+    public boolean isPalindrome2(MyListNode head) {
+        var mid = midNode(head);
+        var rev = reversed(mid);
+        var cur = rev;
+        while (cur != null && cur.val == head.val){
+            cur = cur.next;
+            head = head.next;
+        }
+
+        return cur == null;
+
+    }
+
+    //双指针找中间节点
+    private MyListNode midNode(MyListNode head) {
+        var slow = head;
+        var fast = head;
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        //fast != null 表示为奇数
+        if (fast != null){
+            slow = slow.next;
+        }
+
+        return slow;
     }
 
     /**
