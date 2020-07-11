@@ -679,6 +679,10 @@ public class LeetCoder {
 
     }
 
+    /**
+     * 反转整个链表
+     * 「反转以 a 为头结点的链表」其实就是「反转 a 到 null 之间的结点」
+     * */
     private static ListNode reverse(ListNode head) {
         ListNode pre = null;
         ListNode current = head;
@@ -687,6 +691,45 @@ public class LeetCoder {
             current.next = pre;
             pre = current;
             current = next;
+        }
+
+        return pre;
+    }
+
+    /**
+     * 递归的方式实现: 双指针法
+     *
+     * */
+    public static ListNode reverseKGroup2(ListNode head, int k) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode a = head, b = head;
+        for (int i = 0; i < k; i++) {
+            if (b == null) {
+                return head;
+            }
+            b = b.next;
+        }
+
+        var newHead = reverse(a, b);
+        a.next = reverseKGroup2(b, k);
+        return newHead;
+    }
+
+    /**
+     *   [a,b):左闭右开
+     *  「反转 a 到 b 之间的结点」
+     * */
+    private static ListNode reverse(ListNode a, ListNode b) {
+        ListNode pre = null;
+        ListNode cur = a;
+        while (cur != b) {
+            var next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
         }
 
         return pre;
