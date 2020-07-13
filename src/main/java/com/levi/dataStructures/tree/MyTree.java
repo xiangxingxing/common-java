@@ -332,6 +332,88 @@ public class MyTree {
     }
 
     /**
+     * LeetCode100. 相同的树
+     */
+    public boolean isSameTree(MyTreeNode p, MyTreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+        if (p.value != q.value) {
+            return false;
+        }
+
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+
+    /**
+     * LeetCode700. 二叉搜索树中的搜索
+     */
+    public static <T extends Comparable<T>> MyTreeNode<T> searchBST(MyTreeNode<T> root, T val) {
+        if (root == null) return null;
+
+        if (root.value.compareTo(val) > 0) {
+            return searchBST(root.left, val);
+        }
+
+        if (root.value.compareTo(val) < 0) {
+            return searchBST(root.right, val);
+        }
+
+        return root;
+    }
+
+    //非递归
+    public static <T extends Comparable<T>> MyTreeNode<T> searchBST2(MyTreeNode<T> root, T val) {
+        MyTreeNode<T> p = root;
+        while (p != null && p.value.compareTo(val) != 0) {
+            p = p.value.compareTo(val) > 0 ? p.left : p.right;
+        }
+
+        return p;
+    }
+
+    /**
+     * LeetCode450. 删除二叉搜索树中的节点
+     * 1.找到对应value的结点
+     * 2.结点三种情况：
+     *              本身为叶子结点
+     *              仅有左子树或右子树
+     *              左右子树均有
+     */
+    public static <T extends Comparable<T>> MyTreeNode<T> deleteNode(MyTreeNode<T> root, T key) {
+        if (root == null) return null;
+        if (root.value.compareTo(key) == 0) {
+            //删除结点
+            if (root.right == null) return root.left;
+            if (root.left == null) return root.right;
+
+            var minNode = getMin(root.right);
+            root.value = minNode.value;
+            root.right = deleteNode(root.right, minNode.value);
+
+
+        } else if (root.value.compareTo(key) > 0) {
+            root.left = deleteNode(root.left, key);
+        } else {
+            root.right = deleteNode(root.right, key);
+        }
+
+        return root;
+    }
+
+    private static <T extends Comparable<T>> MyTreeNode<T> getMin(MyTreeNode<T> node) {
+        MyTreeNode<T> p = node;
+        while (p.left != null) {
+            p = p.left;
+        }
+
+        return p;
+    }
+
+    /**
     *   二叉搜索树的生成
      *  LeetCode95.不同的二叉搜索树 II
      *      给定一个整数 n，生成所有由 1 ... n 为节点所组成的 二叉搜索树
