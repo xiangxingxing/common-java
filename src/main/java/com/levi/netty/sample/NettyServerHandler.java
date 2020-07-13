@@ -20,6 +20,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("message from client: " + buf.toString(CharsetUtil.UTF_8));
         System.out.println("客户端地址为：" + ctx.channel().remoteAddress());
 
+        //耗时长的任务 --> 异步执行 --> 提交到该channel对应的NioEventLoop的taskQueue中
+        //方案一：用户自定义的普通任务
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                Thread.sleep(10 * 1000);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("耗时任务执行完毕.",CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        //方案2：用户自定义的定时任务，提交到scheduleTaskQueue
+        //ctx.channel().eventLoop().schedule();
+
     }
 
     /**
@@ -28,7 +42,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         //将数据写入缓冲并刷新
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello！客户端",CharsetUtil.UTF_8));
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hello！客户端,读取通道完毕.",CharsetUtil.UTF_8));
     }
 
     /**

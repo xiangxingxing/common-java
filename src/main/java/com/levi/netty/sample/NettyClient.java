@@ -28,6 +28,7 @@ public class NettyClient {
             System.out.println("客户端 ok..");
 
             //启动客户端连接服务器
+            //关于ChannelFuture要分析，设计到netty的异步模型
             ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 6668).sync();
             channelFuture.channel().closeFuture().sync();
         }finally {

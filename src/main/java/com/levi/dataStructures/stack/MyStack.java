@@ -1,10 +1,56 @@
 package com.levi.dataStructures.stack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
 public class MyStack {
+    //LeetCode225. 用队列实现栈
+    private Queue<Integer> queue;
+    private Integer topItem;
+
+    /**
+     * Initialize your data structure here.
+     */
+    public MyStack() {
+        this.queue = new LinkedList<>();
+    }
+
+    /**
+     * Push element x onto stack.
+     */
+    public void push(int x) {
+        queue.offer(x);
+        topItem = x;
+    }
+
+    /**
+     * Removes the element on top of the stack and returns that element.
+     */
+    public int pop() {
+        int i = queue.size();
+        while (i > 2) {
+            queue.offer(queue.poll());
+            i--;
+        }
+        topItem = queue.poll();
+        queue.offer(topItem);
+
+        return queue.poll();
+    }
+
+    /**
+     * Get the top element.
+     */
+    public int top() {
+        return topItem;
+    }
+
+    /**
+     * Returns whether the stack is empty.
+     */
+    public boolean empty() {
+        return queue.isEmpty();
+    }
+
     private HashMap<Node, Node> visited = new HashMap<>();
 
     //LeetCode133 克隆图

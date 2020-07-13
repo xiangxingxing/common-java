@@ -29,21 +29,8 @@ public class MyQueue {
      * Removes the element from in front of queue and returns that element.
      */
     public int pop(){
-        if (!stack2.isEmpty()){
-            return stack2.pop();
-        }
-        else  {
-            if(stack1.isEmpty()){
-                throw new RuntimeException("Queue is empty.");
-            }
-            else {
-                while (!stack1.isEmpty()){
-                    stack2.push(stack1.pop());
-                }
-
-                return stack2.pop();
-            }
-        }
+        peek();//保证stack2中有元素
+        return stack2.pop();
     }
 
     /**
