@@ -6,7 +6,7 @@ public class BinarySearcher {
         matrix[0] = new int[]{1, 3, 5, 7};
         matrix[1] = new int[]{10, 11, 16, 20};
         matrix[2] = new int[]{23, 30, 34, 50};
-
+        System.out.println(12 & 7);
     }
 
     public static <T extends Comparable<T>> int BinarySearch(T[] array, T target) {
@@ -33,7 +33,7 @@ public class BinarySearcher {
         return -(low + 1);//key not found
     }
 
-    /*
+    /**
     *   LeetCode74. 搜索二维矩阵【二维数组的二分查找】
     * 输入:
             matrix = [
@@ -91,7 +91,7 @@ public class BinarySearcher {
         return false;
     }
 
-    /*
+    /**
      * LeetCode153. 寻找旋转排序数组中的最小值,假设数组中不存在重复元素
      * 输入: [3,4,5,1,2]
      * 输出: 1
@@ -120,7 +120,7 @@ public class BinarySearcher {
         return nums[mid];
     }
 
-    /*
+    /**
      * LeetCode154. 寻找旋转排序数组中的最小值 II，注意数组中可能存在重复的元素
      * 输入: [2,2,2,0,1]
      * 输出: 0

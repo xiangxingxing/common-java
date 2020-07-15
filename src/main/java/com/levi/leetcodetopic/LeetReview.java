@@ -7,7 +7,7 @@ import java.util.*;
 public class LeetReview {
     //leetCode03 不含有重复字符的 最长子串 的长度
     public static int lengthOfLongestSubstring(String s) {
-        if (s.length() == 0) {
+        if (s.length() < 1) {
             return 0;
         }
 
@@ -25,7 +25,7 @@ public class LeetReview {
     }
 
     //leetCode05：找到 s 中最长的回文子串并返回
-    /*
+    /**
     * 空间换时间，将计算结果暂存起来，避免重复计算
     * */
     public static String longestPalindrome(String s) {
@@ -57,7 +57,7 @@ public class LeetReview {
         return s.substring(maxStart, maxEnd + 1);
     }
 
-    /*
+    /**
      *   leetCode102 请你返回其按 层序遍历 得到的节点值
      *   leetCode107 反转结果集
      */

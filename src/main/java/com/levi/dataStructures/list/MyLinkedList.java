@@ -23,7 +23,7 @@ public class MyLinkedList {
             if (cur.next.val.compareTo(pNode.next.val) != 0) {
                 cur = cur.next;
             } else {
-                while (pNode != null && pNode.next != null && cur.next.val.compareTo(pNode.next.val) == 0) {
+                while (pNode.next != null && cur.next.val.compareTo(pNode.next.val) == 0) {
                     pNode = pNode.next;
                 }
 
@@ -35,7 +35,9 @@ public class MyLinkedList {
         return dummy.next;
     }
 
-    //leetCode83:给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次
+    /**
+     * leetCode83:给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次
+     * */
     public static <T extends Comparable<T>> ListNode<T> deleteDuplicates(ListNode<T> head) {
         ListNode<T> pNode = head;
 
@@ -108,6 +110,43 @@ public class MyLinkedList {
 
 
         return dummy.next;
+    }
+
+    public static <T> ListNode<T> reverseBetween2(ListNode<T> head, int m, int n) {
+        var dummy = new ListNode(0);
+        dummy.next = head;
+        var mNode = dummy;
+
+        int i = 0;
+        while (i < m - 1){
+            mNode = mNode.next;
+            i++;
+        }
+
+        var nNode = mNode;
+        while (i <= n){
+            nNode = nNode.next;
+            i++;
+        }
+
+        var mNext = mNode.next;
+        ListNode node = reverseTwo(mNext, nNode);
+        mNext.next = nNode;
+        mNode.next = node;
+        return dummy.next;
+    }
+
+    private static <T> ListNode<T> reverseTwo(ListNode<T> head, ListNode<T> end) {
+        var cur = head;
+        ListNode<T> pre = null;
+        while (cur != end) {
+            var post = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = post;
+        }
+
+        return pre;//[head, end) 左开右闭
     }
 
     /**
@@ -386,7 +425,7 @@ public class MyLinkedList {
             return l1;
         }
 
-        ListNode<T> merged = null;
+        ListNode<T> merged;
         if (l1.val.compareTo(l2.val) < 0){
             merged = l1;
             merged.next = internalMerge(l1.next, l2);
