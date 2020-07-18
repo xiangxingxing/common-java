@@ -20,6 +20,9 @@ public class MyTree {
         var r1 = right.setLeft(60);
         right.setRight(22);
 
+        MyTreeNode tree2 = buildTree2(new int[]{1, 2, 3}, new int[]{2, 3, 1});
+        System.out.println(tree2);
+
         //中序遍历
         //inOrder(root);//should be : 10 3 2 24 60 5 22
         //inOrderNonRecursion(root);
@@ -35,7 +38,7 @@ public class MyTree {
 
         //层次遍历
         //levelOrder(root);
-        levelOrder2(root);
+        //levelOrder2(root);
 
         //求树的深度
         //System.out.println(maxDepth(root));
@@ -411,6 +414,76 @@ public class MyTree {
         }
 
         return p;
+    }
+
+    /**
+     * LeetCode105.根据一棵树的前序遍历与中序遍历构造二叉树。
+     * 前序遍历 preorder = [3,9,20,15,7]
+     * 中序遍历 inorder = [9,3,15,20,7]
+     *
+     * */
+    public static MyTreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder == null || preorder.length < 1){
+            return null;
+        }
+
+        var root = new MyTreeNode<>(preorder[0]);
+        int lLen = 0;
+        int i = 0;
+        while (inorder[i] != root.value) {
+            i++;
+            lLen++;
+        }
+        int rLen = inorder.length - i - 1;
+        if (lLen > 0) {
+            root.left = buildTree(Arrays.copyOfRange(preorder, 1, lLen + 1), Arrays.copyOf(inorder, lLen));
+        }
+
+        if (rLen > 0){
+            root.right = buildTree(Arrays.copyOfRange(preorder, lLen + 1, lLen + 1 + rLen),
+                    Arrays.copyOfRange(inorder, i + 1, i + 1 + rLen));
+        }
+
+        return root;
+    }
+
+    /**
+     * 优化
+     * LeetCode105.根据一棵树的前序遍历与中序遍历构造二叉树。
+     * 前序遍历 preorder = [3,9,20,15,7]
+     * 中序遍历 inorder = [9,3,15,20,7]
+     *
+     * l1,h1为先序遍历下的第一和最后一个结点坐标
+     * [1,2,3]
+     * [2,3,1]
+     *
+     * */
+    public static MyTreeNode buildTree2(int[] preorder, int[] inorder) {
+        return buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
+    }
+
+    private static MyTreeNode buildTree(int[] preorder, int l1, int h1, int[] inorder, int l2, int h2 ) {
+        if (l1 > h2 || l2 > h2){
+            return null;
+        }
+
+        var root = new MyTreeNode<>(preorder[l1]);
+        int i = l2;
+        int lLen = 0;
+        while (inorder[i] != root.value){
+            i++;
+            lLen++;//左子树长度
+        }
+        int rLen = h2 - l2 - lLen;//右子树长度
+        if (lLen > 0){
+            root.left = buildTree(preorder, l1 + 1, l1 + lLen, inorder, l2, l2 + lLen - 1);
+        }
+
+        if (rLen > 0){
+            root.right = buildTree(preorder, h1 - rLen + 1, h1, inorder, h2 - rLen + 1, h2);
+        }
+
+        return root;
     }
 
     /**

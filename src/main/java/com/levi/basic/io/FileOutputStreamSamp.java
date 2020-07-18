@@ -14,9 +14,9 @@ java.io.FileOutputStream
 
 public class FileOutputStreamSamp {
 
-    public static void main(String[] args) {
-        //Samp1();
-        copyFile("/Users/xiangxx/Downloads/DownloadFile/chicken.png");
+    public static void main(String[] args) throws IOException{
+        Samp1();
+        //copyFile("/Users/xiangxx/Downloads/DownloadFile/chicken.png");
     }
 
     public static void Samp1() throws IOException{
@@ -24,9 +24,9 @@ public class FileOutputStreamSamp {
         //谨慎使用‼️先清空源文件，再写入数据
         FileOutputStream outputStream = new FileOutputStream("levi.txt", true);
 
-        byte[] bytes = {97,98,99,100};
-//        String str = "tes冠军！";
-//        byte[] bytes = str.getBytes();
+        //byte[] bytes = {97,98,99,100};
+        String str = "tes冠军！";
+        byte[] bytes = str.getBytes();
         outputStream.write(bytes);
         System.out.println("Append done!");
     }

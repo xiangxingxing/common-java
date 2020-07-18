@@ -30,7 +30,7 @@ public class CollectionMaker {
         System.out.println(list.getClass());//class java.util.Arrays$ArrayList
 
 
-        List myList = Arrays.stream(myArray).collect(Collectors.toList());
+        List myList = Arrays.stream(myArray).collect(Collectors.toList());//class java.util.ArrayList
         myList.forEach(System.out::println);
 
     }

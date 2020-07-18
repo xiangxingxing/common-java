@@ -1,12 +1,16 @@
 package com.levi.algorithms.search;
 
+import java.util.Arrays;
+
 public class BinarySearcher {
     public static void main(String[] args) {
         int[][] matrix = new int[3][4];
         matrix[0] = new int[]{1, 3, 5, 7};
         matrix[1] = new int[]{10, 11, 16, 20};
         matrix[2] = new int[]{23, 30, 34, 50};
-        System.out.println(12 & 7);
+
+        // [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 50]]
+        System.out.println(Arrays.deepToString(matrix));
     }
 
     public static <T extends Comparable<T>> int BinarySearch(T[] array, T target) {

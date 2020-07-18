@@ -38,4 +38,33 @@ public class Interview {
 
         return left && right;
     }
+
+    public static void main(String[] args) {
+        int[] nums = {9, 11, 8, 5, 7, 12, 16, 14};
+        int res = maxDiff(nums);
+        System.out.println(res);
+    }
+
+    /**
+     * 63题：股票的最大利润
+     * 输入：{9, 11, 8, 5, 7, 12, 16, 14}
+     * 输入：16 - 5 = 11;
+     */
+    public static int maxDiff(int[] prices) {
+        int len = prices.length;
+        int[] lMin = new int[len];
+        lMin[0] = prices[0];
+        for (int i = 1; i < len; i++) {
+            lMin[i] = Math.min(lMin[i - 1], prices[i]);
+        }
+
+        int res = 0;
+        int k = 0;
+        while (k < len) {
+            res = Math.max(res, Math.abs(lMin[k] - prices[k]));
+            k++;
+        }
+
+        return res;
+    }
 }
