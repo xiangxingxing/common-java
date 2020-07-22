@@ -20,8 +20,14 @@ public class MyTree {
         var r1 = right.setLeft(60);
         right.setRight(22);
 
-        MyTreeNode tree2 = buildTree2(new int[]{1, 2, 3}, new int[]{2, 3, 1});
-        System.out.println(tree2);
+        //MyTreeNode tree2 = buildTree2(new int[]{1, 2, 3}, new int[]{2, 3, 1});
+        //System.out.println(tree2);
+
+        //24->3->10
+        //24->3->2
+        //24->5->60
+        //24->5->22
+        binaryTreePaths(root).forEach(System.out::println);
 
         //中序遍历
         //inOrder(root);//should be : 10 3 2 24 60 5 22
@@ -235,9 +241,10 @@ public class MyTree {
         return b1 && b2;
     }
 
+    private static final int NOT_BALANCED = -1;
     //leetCode110 是否平衡 --> 后续遍历，保证每个节点只遍历一次
     public static <T> boolean isBalanced(MyTreeNode<T> root) {
-        return balanced(root) != -1;
+        return balanced(root) != NOT_BALANCED;
     }
 
     private static  <T> int balanced(MyTreeNode<T> root) {
@@ -246,16 +253,16 @@ public class MyTree {
         }
 
         int left = balanced(root.left);
-        if (left == -1) {
+        if (left == NOT_BALANCED) {
             return left;
         }
 
         int right = balanced(root.right);
-        if (right == -1) {
+        if (right == NOT_BALANCED) {
             return right;
         }
 
-        return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : -1;
+        return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : NOT_BALANCED;
     }
 
     //leetCode236 两节点最近公共祖先
@@ -484,6 +491,44 @@ public class MyTree {
         }
 
         return root;
+    }
+
+    /**
+     * 480. 二叉树的所有路径
+     * 给一棵二叉树，找出从根节点到叶子节点的所有路径
+     * 输入：{1,2,3,#,5}
+     * 输出：["1->2->5","1->3"]
+     * 解释：
+     *    1
+     *  /   \
+     * 2     3
+     *  \
+     *   5
+     * */
+    public static List<String> binaryTreePaths(MyTreeNode root) {
+        // write your code here
+        List<String> paths = new ArrayList<>();
+        if (root == null){
+            return paths;
+        }
+
+        if (root.left == null && root.right == null){
+            paths.add(root.value.toString());
+            return paths;
+        }
+
+        List<String> leftPaths = binaryTreePaths(root.left);
+        List<String> rightPaths = binaryTreePaths(root.right);
+
+        for (String p : leftPaths) {
+            paths.add(root.value + "->" + p);
+        }
+
+        for (String p : rightPaths) {
+            paths.add(root.value + "->" + p);
+        }
+
+        return paths;
     }
 
     /**

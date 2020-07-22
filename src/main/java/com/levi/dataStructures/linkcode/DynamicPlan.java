@@ -14,6 +14,95 @@ package com.levi.dataStructures.linkcode;
  * */
 public class DynamicPlan {
     /**
+     * linkCode110.最小路径和 【坐标型coordinator type】
+     * 给定一个只含非负整数的m*n网格，找到一条从左上角到右下角的可以使数字和最小的路径。
+     * 输入:  [[1,3,1],[1,5,1],[4,2,1]]
+     * 	输出: 7
+     *
+     * 	样例解释：
+     * 	路线为： 1 -> 3 -> 1 -> 1 -> 1。
+     *
+     * 1.确定状态
+     *          走倒数第二步 前提下
+     *          原问题 到右下角f[m - 1][n - 1]数字和最小的路径
+     *          子问题 f[m - 2][n - 1] or f[m - 1][n - 2]数字和最小
+     * 2.转移方程
+     *          设f[i][j] 表示从左上角f[0][0]到f[m - 1][m - 1]的数字和最小路径
+     * 3.初始条件和边界
+     *          f[0][0] = grid[0][0];
+     *
+     * 4.计算顺序
+     *      从左往右,从上至下
+     * */
+    public int minPathSum(int[][] grid) {
+        // write your code here
+        int m = grid.length;
+        if (m == 0){
+            return 0;
+        }
+        int n = grid[0].length;
+        if(n == 0){
+            return 0;
+        }
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                if (i == 0 && j == 0){
+                    dp[i][j] = grid[i][j];
+                    continue;
+                }
+                dp[i][j] = Integer.MAX_VALUE;//求最小路径 --> 设初值为maxValue
+                if(i > 0){
+                    dp[i][j] = Math.min(dp[i - 1][j], dp[i][j]);
+                }
+                if (j > 0){
+                    dp[i][j] = Math.min(dp[i][j - 1], dp[i][j]);
+                }
+
+                dp[i][j] += grid[i][j];
+
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    //滚动数组
+    public int minPathSum2(int[][] grid) {
+        // write your code here
+        int m = grid.length;
+        if (m == 0){
+            return 0;
+        }
+        int n = grid[0].length;
+        if(n == 0){
+            return 0;
+        }
+        int old = 0;
+        int now = 0;
+        int[][] dp = new int[2][n];//create 2 rows of array
+        for (int i = 0; i < m; i++){
+            old = now;
+            now = 1 - now;
+            for (int j = 0; j < n; j++){
+                if (i == 0 && j == 0){
+                    dp[now][j] = grid[i][j];
+                    continue;
+                }
+                int t = Integer.MAX_VALUE;//求最小路径 --> 设初值为maxValue
+                if(i > 0){
+                    t = Math.min(dp[old][j], t);
+                }
+                if (j > 0){
+                    t = Math.min(dp[now][j - 1], t);
+                }
+
+                dp[now][j] = t + grid[i][j];
+            }
+        }
+        return dp[now][n - 1];
+    }
+
+    /**
      * linkCode114.不同的路径 【坐标型coordinator type】
      * 有一个机器人的位于一个 m × n 个网格左上角。
      * 机器人每一时刻只能向下或者向右移动一步。机器人试图达到网格的右下角。
@@ -73,6 +162,117 @@ public class DynamicPlan {
         }
 
         return dp[m - 1][n - 1];
+    }
+
+    /**
+     * linkCode392.打劫房屋
+     * 假设你是一个专业的窃贼，准备沿着一条街打劫房屋。每个房子都存放着特定金额的钱。
+     * 你面临的唯一约束条件是：相邻的房子装着相互联系的防盗系统，且 当相邻的两个房子同一天被打劫时，该系统会自动报警。
+     *
+     * 给定一个非负整数列表，表示每个房子中存放的钱， 算一算，如果今晚去打劫，在不触动报警装置的情况下, 你最多可以得到多少钱
+     * 输入: [3, 8, 4]
+     * 输出: 8
+     * 解释: 仅仅打劫第二个房子.
+     *
+     * 输入: [5, 2, 1, 3]
+     * 输出: 8
+     * 解释: 抢第一个和最后一个房子
+     *
+     * 转移方程: f[i]表示偷前i栋房子的最大收益，最后一房子偷or不偷两种情况
+     *          f[i] = max(f[i - 1], f[i - 2] + A[i])
+     * */
+    public int houseRobber(int[] A) {
+        // write your code here
+        int n = A.length;
+        if (n == 0){
+            return 0;
+        }
+        int[] dp = new int[n + 1];//返回值为long类型
+        dp[0] = 0;
+        dp[1] = A[0];
+        for(int i = 2; i <= n; i++){
+            dp[i] = Math.max(dp[i - 1], A[i - 1] + dp[i - 2]);
+        }
+
+        return dp[n];
+    }
+
+    /**
+     * 房子成圈，收尾相连, 0 1 2 3 ... n-1
+     * 分为两种情况: 1. 第0个房子不偷
+     *             2. 第n-1个房子不偷
+     */
+    public int houseRobber2(int[] nums) {
+        // write your code here
+        if (nums.length == 0){
+            return 0;
+        }
+
+        if (nums.length == 1){
+            return nums[0];
+        }
+        int[] A = new int[nums.length - 1];
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length - 1; i++){
+            A[i] = nums[i];// 0 -> n - 2
+        }
+        res = Math.max(houseRobber(A), res);
+        for (int i = 0; i < nums.length - 1; i++){
+            A[i] = nums[i + 1];// 1 -> n - 1
+        }
+        res = Math.max(res, houseRobber(A));
+
+        return res;
+
+    }
+
+    /**
+     * linkCode76. 最长上升子序列 【坐标型coordinator type】
+     * 给定一个整数数组（下标从 0 到 n-1， n 表示整个数组的规模），请找出该数组中的最长上升连续子序列。
+     * （最长上升连续子序列可以定义为从右到左或从左到右的序列。）
+     *  输入: [4,2,4,5,3,7]
+     * 	输出:  4
+     *
+     * 	解释:
+     * 	LIS 是 [2,4,5,7]
+     * 1.确定状态
+     *          原问题 求以array[i]结尾的数组中的最长上升子序列
+     *          子问题 求以array[i - 1]结尾的数组中的最长上升连续子序列
+     * 2.转移方程
+     *          设f[i]表示能到该位置的最长上升子序列的长度
+     *          f[i] = f[j - 1] + 1 && j为枚举0 -> i中的值： i > j  && A[i] > A[j]
+     * 3.初始条件和边界
+     *          f[0] = 1;
+     *
+     * 4.计算顺序
+     *      从左往右
+     * */
+    public int longestIncreasingSubsequence(int[] nums) {
+        // write your code here
+        int n = nums.length;
+        if (n == 0){
+            return 0;
+        }
+        int[] dp = new int[n];
+        //记录路径
+        //int p = 0;//最后的记录
+        //int[] pi = new int[n];
+
+        int res = 0;
+        for(int i = 0; i < n; i++){
+            dp[i] = 1;
+
+            for (int j = 0; j < i; j++){
+                if (nums[j] < nums[i]){
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+
+                }
+            }
+
+            res = Math.max(res, dp[i]);
+        }
+
+        return res;
     }
 
     /**

@@ -13,6 +13,40 @@ public class BinarySearcher {
         System.out.println(Arrays.deepToString(matrix));
     }
 
+    /**
+     * 二分查找通用模板
+     * linkCode14. 二分查找
+     * 给定一个排序的整数数组（升序）和一个要查找的整数target，用O(logn)的时间查找到target第一次出现的下标（从0开始），如果target不存在于数组中，返回-1。
+     * */
+    public int binarySearch(int[] nums, int target) {
+        // write your code here
+        int start = 0;
+        int end = nums.length - 1;
+        //先缩小区间
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                end = mid;//若重复则返回第一个
+                //start = mid;//若重复则返回最后一个
+            } else if (nums[mid] < target) {
+                start = mid;
+            } else if (nums[mid] > target) {
+                end = mid;
+            }
+        }
+
+        //再判断位置
+        if (nums[start] == target) {
+            return start;
+        }
+
+        if (nums[end] == target) {
+            return end;
+        }
+
+        return -1;
+    }
+
     public static <T extends Comparable<T>> int BinarySearch(T[] array, T target) {
         int low = 0;
         int high = array.length - 1;
