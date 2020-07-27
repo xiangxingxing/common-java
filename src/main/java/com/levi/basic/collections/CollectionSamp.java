@@ -8,10 +8,14 @@ public class CollectionSamp {
         //Samp2();
         //Samp3();
         //Samp4();
-        Samp5();
+        //Samp5();
 
         //Collections.sort(list);//该list存储的类型需要实现Comparable<T>类型
-
+        LinkedList<List<Integer>> result = new LinkedList<>();
+        List<Integer> l1 = new ArrayList<>(Arrays.asList(2,4,6));
+        List<Integer> l2 = new ArrayList<>(Arrays.asList(0,1,-1));
+        result.addFirst(l1);
+        result.addFirst(l2);
     }
 
     //关于remove

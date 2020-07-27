@@ -24,6 +24,41 @@ public class LeetReview {
         return ans;
     }
 
+    /**
+     * 定义dp[i]为以第i个字符结尾的最长不重复子串
+     * 确定状态：
+     * 转移方程：求dp[i]，与dp[i - 1] + 1 且不能重复
+     * 初始条件：dp[0] = 1
+     * 计算顺序：从左往右
+     */
+    public static int lengthOfLongestSubstring2(String s) {
+        int n;
+        if(s == null || (n = s.length()) == 0){
+            return 0;
+        }
+        char[] array = s.toCharArray();
+        int[] dp = new int[n];
+        dp[0] = 1;
+        int res = 1;
+        for(int i = 1; i < n; i++){
+            dp[i] = 0;
+            if (array[i] == array[i - 1]){
+                dp[i] = 1;
+                continue;
+            }
+
+            int k = i - 1;
+            while (k >= 0 && array[k] != array[i]){
+                k--;
+            }
+
+            dp[i] = Math.min(dp[i - 1] + 1, i - k);
+            res = Math.max(res, dp[i]);
+        }
+
+        return res;
+    }
+
     //leetCode05：找到 s 中最长的回文子串并返回
     /**
     * 空间换时间，将计算结果暂存起来，避免重复计算
@@ -94,4 +129,29 @@ public class LeetReview {
         }
         return list;
     }
+
+    /**
+     * 给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+     * 初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。
+     * 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+     *
+     * 输入:
+     * nums1 = [1,2,3,0,0,0], m = 3
+     * nums2 = [2,5,6],       n = 3
+     *
+     * 输出: [1,2,2,3,5,6]
+     * */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int l1 = m - 1;
+        int l2 = n - 1;
+        int len = m + n - 1;
+        while (l1 >= 0 && l2 >= 0){
+            nums1[len--] = nums1[l1] < nums2[l2] ? nums2[l2--] : nums1[l1--];
+        }
+
+        if(l2 > 0){
+            System.arraycopy(nums2,0, nums1, 0, l2 + 1);
+        }
+    }
+
 }

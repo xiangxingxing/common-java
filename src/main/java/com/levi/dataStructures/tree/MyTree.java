@@ -1,5 +1,7 @@
 package com.levi.dataStructures.tree;
 
+import com.levi.dataStructures.list.MyListNode;
+
 import java.util.*;
 
 public class MyTree {
@@ -321,6 +323,42 @@ public class MyTree {
         return root;
     }
 
+    /**
+     *  LeetCode109.有序链表转换二叉搜索树
+     *  给定一个单链表，其中的元素按升序排序，将其转换为高度平衡的二叉搜索树。
+     * */
+    public MyTreeNode sortedListToBST(MyListNode head) {
+        MyListNode pre = getMiddlePre(head);
+        if (pre == null) {
+            return null;
+        }
+
+        if (pre.next == null) {
+            return new MyTreeNode((pre.val));
+        }
+        MyListNode mid = pre.next;
+        pre.next = null;
+        MyTreeNode root = new MyTreeNode(mid.val);
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(mid.next);
+
+        return root;
+    }
+
+    private MyListNode getMiddlePre(MyListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        MyListNode slow = head;
+        MyListNode fast = head.next.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
 
     //LeetCode101.对称二叉树:给定一个二叉树，检查它是否是镜像对称的
     public boolean isSymmetric(MyTreeNode root) {
@@ -470,7 +508,7 @@ public class MyTree {
     }
 
     private static MyTreeNode buildTree(int[] preorder, int l1, int h1, int[] inorder, int l2, int h2 ) {
-        if (l1 > h2 || l2 > h2){
+        if (l1 > h1 || l2 > h2){
             return null;
         }
 

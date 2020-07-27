@@ -1,10 +1,10 @@
 package com.levi.dataStructures.list;
 
 public class MyListNode{
-    int val;
-    MyListNode next;
+    public int val;
+    public MyListNode next;
 
-    MyListNode(int x) {
+    public MyListNode(int x) {
         val = x;
     }
 }

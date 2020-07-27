@@ -15,18 +15,13 @@ public class QuickSorter {
     public static <T extends Comparable<T>> void quickSort(T[] array){
         int left = 0;
         int right = array.length - 1;
-        quickSort(array,left, right);
+        partition(array,left, right);
     }
 
-    private static <T extends Comparable<T>> void quickSort(T[] array, int start, int end){
-        if (start < end){
-            int pivot = partition(array, start, end);
-            quickSort(array, 0, pivot - 1);
-            quickSort(array, pivot + 1, end);
-        }
-    }
+    private static <T extends Comparable<T>> void partition(T[] array, int start, int end){
+        int low = start;
+        int high = end;
 
-    private static <T extends Comparable<T>> int partition(T[] array, int start, int end){
         var temp = array[start];
         while (start < end){
             while (start < end && array[end].compareTo(temp) >= 0){
@@ -41,6 +36,10 @@ public class QuickSorter {
         }
 
         array[start] = temp;
-        return start;
+
+        if(low < high){
+            partition(array, low, start - 1);
+            partition(array, start + 1, high);
+        }
     }
 }
