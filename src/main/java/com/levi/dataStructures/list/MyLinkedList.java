@@ -150,7 +150,7 @@ public class MyLinkedList {
     }
 
     /**
-     *   【递归实现】
+     *   【递归实现:Maybe Stack Overflow】
      *   leetCode21. 合并两个有序链表
      * */
     public static <T extends Comparable<T>> ListNode<T> mergeTwoLists(ListNode<T> l1, ListNode<T> l2) {
@@ -172,6 +172,28 @@ public class MyLinkedList {
         }
 
         return mergedHead;
+    }
+
+    /**
+     *   【非递归实现】
+     *
+     * */
+    public static <T extends Comparable<T>> ListNode<T> mergeTwoList2(ListNode<T> l1, ListNode<T> l2) {
+        ListNode<T> dummy = new ListNode(-1);
+        ListNode<T> p = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val.compareTo(l2.val) < 0) {
+                p.next = l1;
+                l1 = l1.next;
+            } else {
+                p.next = l2;
+                l2 = l2.next;
+            }
+            p = p.next;
+        }
+
+        p.next = l1 == null ? l2 : l1;
+        return dummy.next;
     }
 
     /**

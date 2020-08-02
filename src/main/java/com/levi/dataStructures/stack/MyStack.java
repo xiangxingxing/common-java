@@ -5,7 +5,7 @@ import java.util.*;
 public class MyStack {
     //LeetCode225. 用队列实现栈
     private Queue<Integer> queue;
-    private Integer topItem;
+    private int topItem;
 
     /**
      * Initialize your data structure here.

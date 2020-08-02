@@ -207,8 +207,7 @@ public class MyTree {
 
     /**
      * 分治思想
-     *    求树的深度
-     *
+     *    LeetCode104. 二叉树的最大深度
      * */
     public static <T> int maxDepth(MyTreeNode<T> root) {
         if (Objects.isNull(root)) {
@@ -219,6 +218,27 @@ public class MyTree {
         int rDepth = maxDepth(root.right);
 
         return Math.max(lDepth, rDepth) + 1;
+    }
+
+    /**
+     * 分治思想
+     *    LeetCode111. 二叉树的最小深度
+     * */
+    public int minDepth(MyTreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        if(root.left == null){
+            return minDepth(root.right) + 1;
+        }
+        if(root.right == null){
+            return minDepth(root.left) + 1;
+        }
+
+        int lDepth = minDepth(root.left);
+        int rDepth = minDepth(root.right);
+
+        return Math.min(lDepth, rDepth) + 1;
     }
 
     //leetCode98 验证是否有效的二叉排序树
