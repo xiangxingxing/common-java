@@ -29,6 +29,7 @@ public class MyQueue {
      * Removes the element from in front of queue and returns that element.
      */
     public int pop(){
+        
         peek();//保证stack2中有元素
         return stack2.pop();
     }
