@@ -135,6 +135,29 @@ public class CommonCode {
         }
     }
 
+    /**
+     * linkCode697. 判断是否为平方数之和
+     * 给一个整数 c, 你需要判断是否存在两个整数 a 和 b 使得 a^2 + b^2 = c.
+     * */
+    public boolean checkSumOfSquareNumbers(int num) {
+        if(num < 0){
+            return false;
+        }
+        for(int i = (int) Math.sqrt(num); i >= 0; i-- ){
+            if(i * i == num){
+                return true;
+            }
+
+            int j = num - i * i;
+            int k = (int) Math.sqrt(j);
+            if(k * k == j){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 class TreeNode {

@@ -3,11 +3,8 @@ package com.levi.basic.thread;
 public class NotifyWait {
     public static void main(String[] args) {
         Num num = new Num(0);
-        Thread t1 = new Thread(new ThreadOdd(num));
-        Thread t2 = new Thread(new ThreadEven(num));
-
-        t1.setName("odd");
-        t2.setName("even");
+        Thread t1 = new Thread(new ThreadOdd(num),"odd");
+        Thread t2 = new Thread(new ThreadEven(num), "even");
 
         t1.start();
         t2.start();
@@ -33,7 +30,7 @@ class ThreadOdd implements Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (numObj.number < 20){
             synchronized (numObj){
                 if((numObj.number & 1) == 0){
                     try {
@@ -62,7 +59,7 @@ class ThreadEven implements Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (numObj.number < 20){
             synchronized (numObj){
                 if((numObj.number & 1) == 1){
                     try {

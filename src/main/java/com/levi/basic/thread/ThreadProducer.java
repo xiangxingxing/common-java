@@ -7,12 +7,8 @@ public class ThreadProducer {
     public static void main(String[] args) {
         List list = new ArrayList();
 
-        Thread t1 = new Thread(new Producer(list));
-        Thread t2 = new Thread(new Consumer(list));
-
-        t1.setName("生产者");
-        t2.setName("消费者");
-
+        Thread t1 = new Thread(new Producer(list), "生产者");
+        Thread t2 = new Thread(new Consumer(list), "消费者");
         t1.start();
         t2.start();
     }
@@ -31,9 +27,10 @@ class Producer implements Runnable {
     //生产者
     @Override
     public void run() {
-        while (true) {
+        int n = 10;
+        while (n > 0) {
             synchronized (collection) {
-                if (collection.size() > 2) {
+                if (collection.size() > 0) {
                     try {
                         collection.wait();//进入等待状态,并释放对象锁
                     } catch (InterruptedException e) {
@@ -50,6 +47,7 @@ class Producer implements Runnable {
                     collection.notify();
                 }
             }
+            n--;
         }
     }
 }

@@ -24,8 +24,8 @@ import java.util.*;
 
 public class MapSamp {
     public static void main(String[] args) {
-//        Samp1();
-        Samp3();
+        Samp1();
+        //Samp3();
     }
 
     public static void Samp1(){
@@ -35,7 +35,7 @@ public class MapSamp {
         map.put(4,"jack");
         map.put(5,"john");
 
-        //map.keySet()获取包含所有key的set
+        //遍历方式一 map.keySet()获取包含所有key的set
         Set<Integer> set = map.keySet();
 /*
         Iterator<Integer> iterator = set.iterator();
@@ -52,13 +52,33 @@ public class MapSamp {
         }
 */
 
-        //map.entrySet()获取包含Entry的set集合
+        //遍历方式二 map.entrySet()获取包含Entry的set集合
         Set<Map.Entry<Integer, String>> entries = map.entrySet();
         for (Map.Entry<Integer, String> entry : entries) {
             Integer key = entry.getKey();
             String val = entry.getValue();
             System.out.println(key + " = " + val);
         }
+
+        //迭代器
+        Iterator<Map.Entry<Integer, String>> iterator = entries.iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Integer, String> next = iterator.next();
+            System.out.print(next.getKey() + " : ");
+            System.out.println(next.getValue());
+        }
+
+        //遍历方式三 lambda
+        map.forEach((key, value) -> {
+            System.out.print(key + " == ");
+            System.out.println(value);
+        });
+
+        //遍历方式四 stream
+        map.entrySet().stream().forEach(entry -> {
+            System.out.print(entry.getKey() + " :: ");
+            System.out.println(entry.getValue());
+        });
 
     }
 

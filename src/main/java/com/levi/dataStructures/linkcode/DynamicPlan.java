@@ -1,5 +1,12 @@
 package com.levi.dataStructures.linkcode;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * 动态规划
  *      1.确定状态【最后一步 --> 子问题】
@@ -275,6 +282,84 @@ public class DynamicPlan {
         return res;
     }
 
+    public static void main(String[] args) {
+        DynamicPlan dp = new DynamicPlan();
+        //1.Integer数组(1 ~ 24)生成   2.将Integer[]类型转为int[]类型
+        Integer[] list = Stream.iterate(1, n -> n + 1).limit(24).toArray(Integer[]::new);
+        int[] nums = Arrays.stream(list).mapToInt(Integer::intValue).toArray();
+        int count = dp.kSum(nums, 4, 24);
+        System.out.println(count);
+    }
+    /**
+     * linkCode.89 k数之和
+     * 输入：24，找出四个数字之和 = 24    输出：47种方案
+     * */
+    public int kSum(int A[], int k, int target) {
+        int n = A.length;
+        //dp[i][j][k]表示从前i个数中，取j个和为k的数的方案数目
+        int[][][] dp = new int[n + 1][k + 1][target + 1];
+        for (int i = 0; i <= n; i++){
+            dp[i][0][0] = 1;
+        }
+
+        for(int i = 1; i <= n; i++){
+            for (int j = 1; j <= k && j <= i;j++ ){
+                for (int t = 1; t <= target ;t++){
+                    dp[i][j][t] = dp[i - 1][j][t];
+                    if(t >= A[i - 1]){
+                        dp[i][j][t] += dp[i - 1][j - 1][t - A[i - 1]];
+                    }
+                }
+            }
+        }
+
+        return dp[n][k][target];
+    }
+
+    /**
+     * linkCode118. 不同的子序列, 给定字符串 S 和 T, 计算 S 的所有子序列中有多少个 T.
+     * 输入: S = "rabbbit", T = "rabbit"
+     * 输出: 3
+     * 解释: 你可以删除 S 中的任意一个 'b', 所以一共有 3 种方式得到 T.
+     *
+     * 输入: S = "abcd", T = ""
+     * 输出: 1
+     * 解释: 只有删除 S 中的所有字符这一种方式得到 T
+     * */
+    public int numDistinct(String S, String T) {
+        // write your code here
+        int m = S.length();
+        if(m == 0){
+            return 0;
+        }
+        int n = T.length();
+        if(n == 0){
+            return 1;
+        }
+
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 0; i <= m  ;i++ ){
+            dp[i][0] = 1;//初始化 当T为空时，则为1
+        }
+
+        for (int i = 0; i <= m ; i++ ){
+            for (int j = 1; j <= n ; j++ ){
+                if(i == 0){
+                    dp[i][j] = 0;
+                    continue;
+                }
+                //dp[i][j]表示S[0...i - 1]的子序列中包含T[0...j - 1]的个数
+                //由两部分组成
+                dp[i][j] = dp[i - 1][j];
+                if(S.charAt(i - 1) == T.charAt(j - 1)){
+                    dp[i][j] += dp[i - 1][j - 1];
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
     /**
      * linkCode397.最长上升连续子序列 【坐标型coordinator type】
      * 给定一个整数数组（下标从 0 到 n-1， n 表示整个数组的规模），请找出该数组中的最长上升连续子序列。
@@ -408,5 +493,49 @@ public class DynamicPlan {
 
         return Math.min(dp[m][0], Math.min(dp[m][1], dp[m][2]));
     }
+
+    /**
+     * ‼️背包问题中，dp数组大小和总承重有关系‼️
+     * linkCode92. 背包问题
+     * 在n个物品中挑选若干物品装入背包，最多能装多满？假设背包的大小为m，每个物品的大小为A[i]
+     * m:最大承重
+     *
+     * 确定状态：dp[i][w] 表示前i个物品是否能拼出重量w
+     * 转移方程：dp[i][w] = dp[i - 1][w] || dp[i - 1][w - A[i]]
+     *
+     * */
+    public int backPack(int m, int[] A) {
+        // write your code here
+        if (A.length == 0){
+            return 0;
+        }
+        int n = A.length;
+        boolean[][] dp = new boolean[n + 1][m + 1];
+        //初始化
+        dp[0][0] = true;
+        for(int i = 1; i < n + 1; i++){
+            dp[0][i] = false;
+        }
+
+        for(int i = 1; i < n + 1; i++){
+            for(int j = 0; j < m + 1; j++){
+                dp[i][j] = dp[i - 1][j];
+                if(j >= A[i - 1]){
+                    dp[i][j] |= dp[i - 1][j - A[i - 1]];
+                }
+            }
+        }
+
+        int res = 0;
+        for (int k = m; k >= 0; k--){
+            if(dp[n][k]){
+                res = k;
+                break;
+            }
+        }
+
+        return res;
+    }
+
 
 }
