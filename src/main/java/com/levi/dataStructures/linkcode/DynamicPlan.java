@@ -291,6 +291,7 @@ public class DynamicPlan {
         System.out.println(count);
     }
     /**
+     * 对比：背包问题 line508
      * linkCode.89 k数之和
      * 输入：24，找出四个数字之和 = 24    输出：47种方案
      * */

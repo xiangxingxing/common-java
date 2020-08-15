@@ -1,6 +1,8 @@
 package com.levi.algorithms.search;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class BinarySearcher {
     public static void main(String[] args) {
@@ -47,6 +49,30 @@ public class BinarySearcher {
         return -1;
     }
 
+    /**
+     * linkCode46.主元素
+     * 给定一个整型数组，找出主元素，它在数组中的出现次数严格大于数组元素个数的二分之一
+     * */
+    public int majorityNumber(List<Integer> nums) {
+        // write your code here
+        Iterator<Integer> iterator = nums.iterator();
+        int count = 0;
+        Integer key = null;
+        while (iterator.hasNext()){
+            int num = iterator.next();
+            if(count == 0){
+                key = num;
+                count = 1;
+            }else if(num == key){
+                count += 1;
+            }else {
+                count -= 1;
+            }
+        }
+
+        return key;
+    }
+
     public static <T extends Comparable<T>> int BinarySearch(T[] array, T target) {
         int low = 0;
         int high = array.length - 1;
@@ -73,6 +99,8 @@ public class BinarySearcher {
 
     /**
     *   LeetCode74. 搜索二维矩阵【二维数组的二分查找】
+     *  每行中的整数从左到右按升序排列。
+     *  每行的第一个整数大于前一行的最后一个整数。
     * 输入:
             matrix = [
               [1,   3,  5,  7],
@@ -102,6 +130,77 @@ public class BinarySearcher {
         }
 
         return false;
+    }
+
+    /**
+     * 方式2
+     * 条件：while(low + 1 < high)
+     * 赋值：high = mid; low = mid;
+     * */
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        // write your code here
+        int row, col;
+        if(matrix == null
+                || (row = matrix.length) == 0
+                || (col = matrix[0].length) == 0){
+            return false;
+        }
+
+        int low = 0;
+        int high = row * col - 1;
+        while(low + 1 < high){
+            int mid = low + (high - low) / 2;
+            int value = matrix[mid / col][mid % col];
+            if(value == target){
+                high = mid;
+            }else if(value < target){
+                low = mid;
+            }else{
+                high = mid;
+            }
+        }
+
+        if(matrix[low / col][low % col] == target){
+            return true;
+        }
+
+        if(matrix[high / col][high % col] == target){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * linkCode38. 搜索二维矩阵 II
+     * 写出一个‼️高效‼️的算法来搜索m×n矩阵中的值，返回这个值出现的次数
+     * 由于不满足条件（每行的第一个整数大于前一行的最后一个整数） -->  从左下角往右上角进行遍历，
+     * */
+    public int searchCountMatrix(int[][] matrix, int target) {
+        // write your code here
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0){
+            return 0;
+        }
+        //从左下角往右上角遍历
+        int row = matrix.length - 1;
+        int col = matrix[0].length;
+
+        int x = row;
+        int y = 0;
+        int res = 0;
+        while (x >= 0 && y < col){
+            if (matrix[x][y] == target){
+                res++;
+                x--;
+                y++;
+            }else if(matrix[x][y] < target){
+                y++;
+            }else {
+                x--;
+            }
+        }
+
+        return res;
     }
 
     //LeetCode278. 第一个错误的版本

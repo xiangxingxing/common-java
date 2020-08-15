@@ -53,19 +53,24 @@ package com.levi.basic.thread;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class ThreadSamp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         //Samp1();
         //Samp2();
         //Samp3();
         //Samp4();
         //Samp5();
-        samp6();
+        //samp6();
         //samp7();
+        samp8();
     }
 
     public static void Samp1(){
@@ -164,6 +169,22 @@ public class ThreadSamp {
         timer.schedule(new LogTimerTask(), firstTime, 1000 * 10);
     }
 
+    public static void samp8() throws ExecutionException, InterruptedException {
+        /*
+         * 使用Callable来创建线程
+         */
+        Callable <Integer> aCallable = new MyCallable<>(10);
+
+        FutureTask<Integer> task = new FutureTask<>(aCallable);
+
+        Thread aThread = new Thread(task);
+
+        aThread.start();
+
+        Integer integer = task.get();
+        System.out.println(integer);
+    }
+
 }
 
 class MyThread extends Thread {
@@ -189,4 +210,23 @@ class LogTimerTask extends TimerTask{
         System.out.println(firstTime + "：成功执行了一次");
 
     }
+}
+
+/*
+ * Callable接口实现多线程Demo
+ */
+class  MyCallable<V> implements Callable<V>
+{
+    private V result;
+    public MyCallable(V result){
+        this.result = result;
+    }
+
+    @Override
+    public V call() throws Exception {
+        // TODO Auto-generated method stub
+        System.out.println("I am Callable thread : "+Thread.currentThread().getName());
+        return result;
+    }
+
 }
