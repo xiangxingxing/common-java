@@ -1,5 +1,7 @@
 package com.levi.dataStructures.linkcode;
 
+import com.levi.dataStructures.tree.MyTreeNode;
+
 import java.util.*;
 
 public class CommonCode {
@@ -209,13 +211,45 @@ public class CommonCode {
             return;
         }
         for (int i = startIndex; i < A.length; i++) {
-            if (A[startIndex] > remainTarget) {
+            if (A[i] > remainTarget) {
                 break;
             }
             subset.add(A[i]);
             helper(A, i + 1, remainCount - 1, remainTarget - A[i], subset, result);
             subset.remove(subset.size() - 1);
         }
+    }
+
+    /**
+     * 164. 不同的二叉查找树 II
+     * 给出n，生成所有由1...n为节点组成的不同的二叉查找树
+     * */
+    public List<TreeNode> generateTrees(int n) {
+        // write your code here
+        return internalGenerate(1, n);
+    }
+
+    private List<TreeNode> internalGenerate(int start, int end){
+        List<TreeNode> res = new ArrayList<>();
+        if(start > end){
+            res.add(null);
+            return res;
+        }
+
+        for (int i = start; i <= end; i++){
+            List<TreeNode> left = internalGenerate(start, i - 1);
+            List<TreeNode> right = internalGenerate(i + 1, end);
+            for (TreeNode l : left) {
+                for (TreeNode r : right) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = l;
+                    root.right = r;
+                    res.add(root);
+                }
+            }
+        }
+
+        return res;
     }
 
     /**
@@ -244,6 +278,89 @@ public class CommonCode {
         }
 
         return maxLen;
+    }
+
+    /**
+     * linkCode471. 最高频的K个单词
+     * 给一个单词列表，求出这个列表中出现频次最高的K个单词。
+     * */
+    class Pair{
+        int count;
+        String key;
+        public Pair(String key, int count){
+            this.key = key;
+            this.count = count;
+        }
+    }
+
+    public String[] topKFrequentWords(String[] words, int k) {
+        String[] res = new String[k];
+        Map<String, Integer> map = new HashMap<>();
+        for (String key : words){
+            if(map.containsKey(key)){
+                map.put(key, map.get(key) + 1);
+            }else {
+                map.put(key, 1);
+            }
+        }
+
+        // write your code here
+        //PriorityQueue：按一定的比较规则将对象进行堆排序
+        PriorityQueue<Pair> queue = new PriorityQueue<>(map.size(), (o1, o2) -> {
+            if(o1.count != o2.count){
+                return o2.count - o1.count;
+            }else{
+                return o1.key.compareTo(o2.key);
+            }
+        });
+
+        for (String s : map.keySet()) {
+            queue.offer(new Pair(s, map.get(s)));
+        }
+        int i = 0;
+        while (i < k){
+            res[i++] = queue.poll().key;
+        }
+
+        return res;
+    }
+
+    /**
+     * linkCode480. 二叉树的所有路径
+     * 给一棵二叉树，找出从根节点到叶子节点的所有路径
+     * 输入：{1,2,3,#,5}
+     * 输出：["1->2->5","1->3"]
+     * 解释：
+     *    1
+     *  /   \
+     * 2     3
+     *  \
+     *   5
+     * */
+    public static List<String> binaryTreePaths(TreeNode root) {
+        // write your code here
+        List<String> paths = new ArrayList<>();
+        if (root == null){
+            return paths;
+        }
+
+        if (root.left == null && root.right == null){
+            paths.add(root.val + "");//不能直接paths.add(root.val)
+            return paths;
+        }
+
+        List<String> leftPaths = binaryTreePaths(root.left);
+        List<String> rightPaths = binaryTreePaths(root.right);
+
+        for (String p : leftPaths) {
+            paths.add(root.val + "->" + p);
+        }
+
+        for (String p : rightPaths) {
+            paths.add(root.val + "->" + p);
+        }
+
+        return paths;
     }
 
     /**

@@ -29,7 +29,6 @@ public class MyTree {
         //24->3->2
         //24->5->60
         //24->5->22
-        binaryTreePaths(root).forEach(System.out::println);
 
         //中序遍历
         //inOrder(root);//should be : 10 3 2 24 60 5 22
@@ -550,49 +549,5 @@ public class MyTree {
 
         return root;
     }
-
-    /**
-     * 480. 二叉树的所有路径
-     * 给一棵二叉树，找出从根节点到叶子节点的所有路径
-     * 输入：{1,2,3,#,5}
-     * 输出：["1->2->5","1->3"]
-     * 解释：
-     *    1
-     *  /   \
-     * 2     3
-     *  \
-     *   5
-     * */
-    public static List<String> binaryTreePaths(MyTreeNode root) {
-        // write your code here
-        List<String> paths = new ArrayList<>();
-        if (root == null){
-            return paths;
-        }
-
-        if (root.left == null && root.right == null){
-            paths.add(root.value.toString());
-            return paths;
-        }
-
-        List<String> leftPaths = binaryTreePaths(root.left);
-        List<String> rightPaths = binaryTreePaths(root.right);
-
-        for (String p : leftPaths) {
-            paths.add(root.value + "->" + p);
-        }
-
-        for (String p : rightPaths) {
-            paths.add(root.value + "->" + p);
-        }
-
-        return paths;
-    }
-
-    /**
-    *   二叉搜索树的生成
-     *  LeetCode95.不同的二叉搜索树 II
-     *      给定一个整数 n，生成所有由 1 ... n 为节点所组成的 二叉搜索树
-    * */
 
 }
