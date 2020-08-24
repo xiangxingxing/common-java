@@ -73,6 +73,45 @@ public class BinarySearcher {
         return key;
     }
 
+    /**
+     * linkCode46.主元素方法2：快排
+     * */
+    public int majorityNumber2(List<Integer> nums) {
+        // write your code here
+        int n;
+        if(nums == null || (n = nums.size()) == 0){
+            return 0;
+        }
+        int[] array = nums.stream().mapToInt(Integer::valueOf).toArray();
+        return partition(array, 0, n - 1, n / 2);
+    }
+
+    //超过一半 -> 坐标 n / 2 的数
+    private int partition(int[] nums, int start, int end, int k){
+        int left = start;
+        int right = end;
+        int tmp = nums[start];
+        while(start < end){
+            while(start < end && nums[end] >= tmp){
+                end--;
+            }
+            nums[start] = nums[end];
+            while(start < end && nums[start] <= tmp){
+                start++;
+            }
+            nums[end] = nums[start];
+        }
+
+        nums[start] = tmp;
+        if(start == k){
+            return nums[start];
+        }else if(start < k){
+            return partition(nums, start + 1, right, k);
+        }else{
+            return partition(nums, left, end - 1, k);
+        }
+    }
+
     public static <T extends Comparable<T>> int BinarySearch(T[] array, T target) {
         int low = 0;
         int high = array.length - 1;

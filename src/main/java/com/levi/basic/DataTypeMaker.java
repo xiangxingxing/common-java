@@ -6,7 +6,7 @@ public class DataTypeMaker {
         int num = 56;
         Integer num2 = new Integer(56);
         Integer num3 = 56;
-        System.out.println(num == num2);//true
+        System.out.println(num == num2);//truex
         System.out.println(num2 == num3);//false
     }
 

@@ -281,6 +281,45 @@ public class CommonCode {
     }
 
     /**
+     * Interview48.动态规划解法
+     *      dp[i]表示以第i个字母结尾的最长子字符串长度, d表示s.charAt(i - 1)离上一次出现该字符的距离
+     *      dp[i] = 1;
+     *      转移方程：分为
+     *        1. d > dp[i - 1] -> dp[i] += dp[i - 1]
+     *        2. d <= dp[i - 1] -> dp[i] += d;
+     *      边界条件: dp[1] = 1
+     * */
+    public int lengthOfLongestSubstring2(String s) {
+        int n;
+        if(s == null || (n = s.length()) == 0){
+            return 0;
+        }
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        int res = dp[1];
+        for(int i = 2; i <= n; i++){
+            dp[i] = 1;
+            int len = 0;
+            int tmp = s.charAt(i - 1);
+            for(int j = i - 2; j >= 0; j--){
+                if(tmp == s.charAt(j)){
+                    break;
+                }
+                len++;
+            }
+            if(len <= dp[i - 1]){
+                dp[i] += len;
+            }else {
+                dp[i] += dp[i - 1];
+            }
+
+            res = Math.max(res, dp[i]);
+        }
+
+        return res;
+    }
+
+    /**
      * linkCode471. 最高频的K个单词
      * 给一个单词列表，求出这个列表中出现频次最高的K个单词。
      * */

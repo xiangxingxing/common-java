@@ -39,14 +39,10 @@ public class CollectionMaker {
      * 将ArrayList转换为数组
      * 1.new String[0]就是起一个模板的作用，指定了返回数组的类型，0是为了节省空间，因为它只是为了说明返回的类型
      * */
-    //正确的将数组转换为ArrayList --> 使用new ArrayList<>包一层
     public static void ConvertArrayList2List(){
         List<String> list = new ArrayList<>(Arrays.asList("apple","banana","strawberry"));
         //List<String> list = new ArrayList<>(List.of("apple","banana","strawberry"));
         String[] res = list.toArray(new String[list.size()]); //将list转换为String数组
-        //list.add("watermelon");
-        ////list.remove(0);
-        //list.forEach(System.out :: println);
     }
 
     //移除数组元素不能用foreach，应利用集合的迭代器
@@ -72,9 +68,7 @@ public class CollectionMaker {
             }
         }
 
-        for (String item : list){
-            System.out.println(item);
-        }
+        list.forEach(System.out::println);
     }
 
     private static void ArrayCopy() {
@@ -86,7 +80,6 @@ public class CollectionMaker {
         for (int j : i) {
             System.out.print(j);
         }
-        int[] b = new int[]{1,2,4};
         // 换行
         System.out.println();
         // copyOfRange将指定数组的指定范围复制到新数组中
@@ -96,15 +89,13 @@ public class CollectionMaker {
         for (int j2 : j) {
             System.out.print(j2);
         }
-        // 换行
-        System.out.println();
     }
 
     private static void ArrayBinarySearch() {
         // *************查找 binarySearch()****************
         char[] e = {'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B'};
         // 排序后再进行二分查找，否则找不到
-        //Arrays.sort(e);
+        Arrays.sort(e);
         //System.out.println("Arrays.sort(e)" + Arrays.toString(e));
         System.out.println("Arrays.binarySearch(e, 'c')：");
         int s = Arrays.binarySearch(e, 'f');

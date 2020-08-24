@@ -9,8 +9,6 @@ import java.lang.reflect.Method;
 public class AnnotationSamp {
     public static void main(String[] args) {
         //samp2();
-
-
     }
 
     @MyAnnotation(username = "doSome", password = 369)

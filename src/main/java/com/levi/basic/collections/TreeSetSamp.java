@@ -1,6 +1,7 @@
 package com.levi.basic.collections;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 /*
@@ -41,19 +42,25 @@ public class TreeSetSamp {
             匿名方式:直接new接口
         * */
         //等价于：TreeSet<Dog> ts = new TreeSet<>(Comparator.comparing(o -> o.name));
-        TreeSet<Dog> ts = new TreeSet<>(new Comparator<Dog>() {
-            @Override
-            public int compare(Dog o1, Dog o2) {
-                return o1.name.compareTo(o2.name);
-            }
-        });
+        TreeSet<Dog> ts = new TreeSet<>((o1, o2) -> o2.name.compareTo(o1.name));
 
         ts.add(new Dog("t"));
-        ts.add(new Dog("b"));
         ts.add(new Dog("z"));
+        ts.add(new Dog("b"));
+        ts.add(new Dog("a"));
 
         for (Dog dog : ts){
             System.out.println(dog);
         }
+
+        Iterator<Dog> tor = ts.iterator();
+        Dog first = tor.next();
+        tor.remove();
+        System.out.println("===== remove first ======");
+        ts.forEach(System.out::println);
+
+        System.out.println("===== add new ======");
+        ts.add(new Dog("c"));
+        ts.forEach(System.out::println);
     }
 }
