@@ -918,4 +918,82 @@ public class LeetCoder {
 
         return ans;
     }
+
+    /**
+     * leetCode199. 二叉树的右视图
+     * 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+     * */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            while (size > 0){
+                TreeNode node = queue.poll();
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
+                if(size == 1){
+                    res.add(node.val);
+                }
+                size--;
+            }
+        }
+
+        return res;
+    }
+
+    /**
+     * leetCode300. 最长上升子序列
+     * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+     * */
+    public int lengthOfLIS(int[] nums) {
+        int n;
+        if(nums == null || (n = nums.length) == 0) return 0;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        int res = dp[0];
+        for(int i = 1; i < n; i++){
+            dp[i] = 1;
+            for (int j = 0; j < i; j++){
+                if(nums[i] > nums[j]){
+                    dp[i] = Math.max(dp[j] + 1, dp[i]);
+                }
+            }
+
+            res = Math.max(res, dp[i]);
+        }
+
+        return res;
+    }
+
+    /**
+     * LeetCode322. 零钱兑换
+     * 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+     * */
+    public int coinChange(int[] coins, int amount) {
+        int n;
+        if(coins == null || (n = coins.length) == 0) return -1;
+        int[] dp = new int[amount + 1];
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++){
+            dp[i] = Integer.MAX_VALUE;
+            for (int j = 0; j < n; j++){
+                if(i >= coins[j]){
+                    if(dp[i - coins[j]] == Integer.MAX_VALUE) continue;
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+
+        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
 }

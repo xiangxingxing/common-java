@@ -1,6 +1,4 @@
-package com.levi.dataStructures.linkcode;
-
-import com.levi.dataStructures.tree.MyTreeNode;
+package com.levi.dataStructures.lintcode;
 
 import java.util.*;
 
@@ -97,7 +95,36 @@ public class CommonCode {
     }
 
     /**
-     * linkCode62. 搜索旋转排序数组
+     * lintCode60. 搜索插入位置
+     * */
+    public int searchInsert(int[] A, int target) {
+        // write your code here
+        int n;
+        if((n = A.length) == 0) return 0;
+        int low = 0;
+        int high = A.length - 1;
+        while (low + 1 < high){
+            int mid = low + (high - low) / 2;
+            if(A[mid] == target) return mid;
+            else if(A[mid] > target){
+                high = mid;
+            }else {
+                low = mid;
+            }
+        }
+
+        if(A[low] >= target){
+            return low;
+        }
+
+        if(A[high] >= target){
+            return high;
+        }
+        return high + 1;
+    }
+
+    /**
+     * lintCode62. 搜索旋转排序数组
      * 给定一个目标值进行搜索，如果在数组中找到目标值返回数组中的索引位置，否则返回-1。
      * */
     public int search(int[] A, int target) {
@@ -425,6 +452,83 @@ public class CommonCode {
         return false;
     }
 
+    /**
+     * lintCode415. 有效回文串
+     * 给定一个字符串，判断其是否为一个回文串。只考虑字母和数字，忽略大小写。
+     * */
+    public boolean isPalindrome(String s) {
+        // write your code here
+        if(s == null || s.length() == 0) return true;
+        char[] chars = s.toCharArray();
+        int left = 0;
+        int right = chars.length - 1;
+        while (left < right){
+            if(!Character.isLetterOrDigit(chars[left])){
+                left++;
+            } else if(!Character.isLetterOrDigit(chars[right])){
+                right--;
+            }else {
+                if(Character.toLowerCase(chars[left]) != Character.toLowerCase(chars[right])){
+                    return false;
+                }else {
+                    left++;
+                    right--;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * lintCode627.最长回文串
+     * 给出一个包含大小写字母的字符串。求出由这些字母构成的最长的回文串的长度是多少。
+     * 数据是大小写敏感的，也就是说，"Aa" 并不会被认为是一个回文串。
+     * */
+    public int longestPalindrome(String s) {
+        HashSet<Character> set = new HashSet<>();
+        if(s == null || s.length() == 0) return 0;
+        char[] array = s.toCharArray();
+        int res = 0;
+        for(char c : array){
+            if(!set.contains(c)){
+                set.add(c);
+            }else {
+                set.remove(c);
+                res += 2;
+            }
+        }
+
+        res += set.isEmpty() ? 0 : 1;
+        return res;
+    }
+
+    /**
+     * lintCode667. 最长的回文序列
+     * 给一字符串 s, 找出在 s 中的最长回文子序列的长度
+     * 输入： "bbbab"
+     * 输出： 4
+     * 解释：
+     * 一个可能的最长回文序列为 "bbbb"
+     * */
+    public int longestPalindromeSubSeq(String str){
+        int n;
+        if(str == null || (n = str.length()) == 0) return 0;
+        int[][] dp = new int[n][n];
+        for (int i = n - 1; i >= 0; i--){
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; j++){
+                if(str.charAt(i) == str.charAt(j)){
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                }else {
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+
 }
 
 class TreeNode {
@@ -499,6 +603,7 @@ class LRUCache {
     public void set(int key, int value) {
         // write your code here
         if(get(key) != -1){
+            /*即 tail.val = value */
             ListNode pre = keyToPrev.get(key);
             pre.next.val = value;
             return;
@@ -524,10 +629,10 @@ class LRUCache {
     }
 
     class ListNode {
-        public int key, val;
-        public ListNode next;
+        int key, val;
+        ListNode next;
 
-        public ListNode(int key, int val) {
+        private ListNode(int key, int val) {
             this.key = key;
             this.val = val;
             this.next = null;
