@@ -204,14 +204,14 @@ public class CommonCode {
 
     }
 
-    public static void main(String[] args) {
-        CommonCode cc = new CommonCode();
-        int[] array = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
-        int k = 4;
-        int target = 24;
-        List<List<Integer>> lists = cc.kSumII(array, k, target);
-        System.out.println(lists.size());
-    }
+//    public static void main(String[] args) {
+//        CommonCode cc = new CommonCode();
+//        int[] array = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
+//        int k = 4;
+//        int target = 24;
+//        List<List<Integer>> lists = cc.kSumII(array, k, target);
+//        System.out.println(lists.size());
+//    }
 
     /**
      * linkCode90.给定n个不同的正整数，整数k（1<= k <= n）以及一个目标数字。　　　　
@@ -527,6 +527,103 @@ public class CommonCode {
         }
 
         return dp[0][n - 1];
+    }
+
+    public static void main(String[] args) {
+        String ip = "172.16.254.1";
+        CommonCode c = new CommonCode();
+        System.out.println(c.validIPAddress(ip));
+    }
+    /**
+     * 校验ip地址
+     * */
+    String IPV6char = "0123456789abcdefABCDEF";
+
+    public String validIPAddress(String IP) {
+        //‼️得加上\\‼️
+        String[] ipv4 = IP.split("\\.");
+        boolean is_IPV4 = true;
+        if(ipv4.length == 4 && numberOfToken(IP, '.') == 3){
+            for(int i = 0; i < 4;i++){
+                if(!isIPV4Number(ipv4[i])){
+                    is_IPV4 = false;
+                    break;
+                }
+            }
+        }else{
+            is_IPV4 = false;
+        }
+
+        if(is_IPV4){
+            return "IPv4";
+        }
+
+        String[] ipv6 = IP.split(":");
+        boolean is_IPV6 = true;
+        if(ipv6.length == 8 && numberOfToken(IP, ':') == 7){
+            for(int i = 0; i < 8; i++){
+                if(!isIPV6Number(ipv6[i])){
+                    is_IPV6 = false;
+                    break;
+                }
+            }
+        }else{
+            is_IPV6 = false;
+        }
+
+        if(is_IPV6) return "IPv6";
+
+        return "Neither";
+    }
+
+    private int numberOfToken(String ip, char token){
+        int num = 0;
+        for(int i = 0; i < ip.length(); i++){
+            if(ip.charAt(i) == token){
+                num++;
+            }
+        }
+
+        return num;
+    }
+
+    private boolean isIPV4Number(String str){
+        if(str.equals("") || str.length() > 3){
+            return false;
+        }
+        if(str.length() > 1 && str.charAt(0) == '0'){
+            return false;
+        }
+
+        int num = 0;
+        for(int i = 0; i < str.length(); i++){
+            if(!Character.isDigit(str.charAt(i))){
+                return false;
+            }else{
+                num = num * 10 + (str.charAt(i) - '0');
+            }
+
+        }
+
+        if(num >= 0 && num <= 256){
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isIPV6Number(String str){
+        if(str.equals("") || str.length() > 4){
+            return false;
+        }
+
+        for(int i = 0; i < str.length(); i++){
+            if(IPV6char.indexOf(str.charAt(i)) == -1){
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
