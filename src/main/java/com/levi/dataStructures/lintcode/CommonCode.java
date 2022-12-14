@@ -61,6 +61,7 @@ public class CommonCode {
 
     /**
      * linkCode15. 整型数组全排列
+     * 子集问题类似解法：lintCode16/17/18/90
      */
     public List<List<Integer>> permute(int[] nums) {
         // write your code here
